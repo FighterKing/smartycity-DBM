@@ -1,7 +1,13 @@
 import bottle
 from bottle import jinja2_template
 
+
 app = bottle.Bottle()
+
+from bottle import static_file
+@app.route('/static/<filepath:path>')
+def server_static(filepath):
+    return static_file(filepath, root='static')
 
 @app.route('/hello')
 def hello():
