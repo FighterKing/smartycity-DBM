@@ -1,7 +1,6 @@
 {% extends "admin/base_site.html" %}
 
 <!-- LOADING -->
-{% load i18n grp_tags %}
 
 <!-- BODYCLASS -->
 {% block bodyclass %}grp-login{% endblock %}
@@ -19,7 +18,7 @@
 <!-- CONTENT -->
 {% block content %}
     <div class="g-d-c g-d-10 g-centered">
-        <form action="{{ app_path }}" method="post">{% csrf_token %}
+        <form action="{{ app_path }}" method="post">
             <fieldset class="grp-module grp-module-login">
                 <h1>
                     <span class="grp-admin-title">{% if grappelli_admin_title %}{{ grappelli_admin_title }}{% else %}{% get_admin_title %}{% endif %}</span>
