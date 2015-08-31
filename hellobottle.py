@@ -1,7 +1,9 @@
-from bottle import route, run
+import bottle
 
-@route('/hello')
+app = bottle.Bottle()
+
+@app.route('/hello')
 def hello():
-  return "Hello World!"
+  return app.jinja2_template('template/admin/login.html')
 
-run(host='localhost', port=8080, debug=True)
+app.run(host='localhost', port=8000, debug=True)
