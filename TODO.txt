@@ -1,0 +1,4 @@
+* Design
+1. URL design
+2. Database design
+3. Function design
