@@ -1,0 +1,52 @@
+{% extends "template/base.html" %}
+
+<!-- LOADING -->
+
+<!-- EXTRAHEAD-->
+{% block extrahead %}
+    {{ super() }}
+    <script type="text/javascript">
+        (function($) {
+            $(window).load(function(){ $('#id_username').focus(); });
+        })(grp.jQuery);
+    </script>
+{% endblock %}
+
+<!-- BODYCLASS -->
+{% block bodyclass %}grp-login{% endblock %}
+
+<!-- CONTENT -->
+{% block content %}
+    <div class="g-d-c g-d-10 g-centered">
+        <form action="{{ app_path }}" method="post">
+            <fieldset class="grp-module grp-module-login">
+                <h1>
+                    <span class="grp-admin-title">{% if grappelli_admin_title %}{{ grappelli_admin_title }}{% else %}Grappelli{% endif %}</span>
+                    <span class="grp-current-page">Login</span>
+                </h1>
+                <div class="grp-module">
+                    <div class="grp-row{% if username_errors %} grp-errors{% endif %}">
+                        <label for="id_username" class="required">{{ username_label }}</label>
+                        <input type="text" name="username" id="id_username" />
+                        {% if username_errors %}{{ username_errors }}{% endif %}
+                    </div>
+                    <div class="grp-row grp-connected{% if password_errors %} grp-errors{% endif %}">
+                        <label for="id_password" class="required">{{ password_label }}</label>
+                        <input type="password" name="password" id="id_password" />
+                        {% if password_errors %}{{ password_errors }}{% endif %}
+                    </div>
+                    {% if password_reset_url %}
+                        <div class="grp-row">
+                            <p class="grp-description" style="font-size: 11px; line-height: 13px; margin-top: 2px;"><a href="{{ password_reset_url }}">Forgotten your password or username?</a></p>
+                        </div>
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="grp-module grp-submit-row">
+                <ul>
+                    <li><input type="submit" class="grp-button grp-default" value="Log in" /></li>
+                </ul>
+            </div>
+        </form>
+    </div>
+{% endblock %}
