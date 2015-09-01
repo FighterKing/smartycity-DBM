@@ -26,12 +26,12 @@
                 </h1>
                 <div class="grp-module">
                     <div class="grp-row{% if username_errors %} grp-errors{% endif %}">
-                        <label for="id_username" class="required">{{ username_label }}</label>
+                        <label for="id_username" class="required">{{ username_label|default('Username') }}</label>
                         <input type="text" name="username" id="id_username" />
                         {% if username_errors %}{{ username_errors }}{% endif %}
                     </div>
                     <div class="grp-row grp-connected{% if password_errors %} grp-errors{% endif %}">
-                        <label for="id_password" class="required">{{ password_label }}</label>
+                        <label for="id_password" class="required">{{ password_label|default('Password') }}</label>
                         <input type="password" name="password" id="id_password" />
                         {% if password_errors %}{{ password_errors }}{% endif %}
                     </div>

@@ -13,8 +13,8 @@ def server_static(filepath):
 
 @app.route('/hello')
 def hello():
-    return jinja2_template('template/login.html')
-    # return jinja2_template('template/base.html')
+    # return jinja2_template('template/login.html')
+    return jinja2_template('template/index.html')
 
 
 app.run(host='localhost', port=81, debug=True)
