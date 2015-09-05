@@ -1,8 +1,13 @@
 import bottle
-from bottle import jinja2_template, static_file
-
+import bottle_mysql
 
 app = bottle.Bottle()
+
+# dbhost: optional, default is localhost
+# keyword: The keyword argument name that triggers the plugin (default: ‘db’).
+plugin = bottle_mysql.Plugin(dbuser='root', dbpass='root', dbname='community_dbm',
+                             dbhost='202.120.40.24', dictrows=False)
+app.install(plugin)
 
 
 # Description : document template.
@@ -12,8 +17,8 @@ app = bottle.Bottle()
 # Output : test page
 @app.route('/test')
 def hello():
-    # return jinja2_template('template/login.html')
-    return jinja2_template('template/index.html')
+    # return bottle.jinja2_template('template/login.html')
+    return bottle.jinja2_template('template/index.html')
 
 
 # Description : get static files.
@@ -23,7 +28,7 @@ def hello():
 # Output : static file
 @app.route('/static/<filepath:path>')
 def server_static(filepath):
-    return static_file(filepath, root='static')
+    return bottle.static_file(filepath, root='static')
 
 
 # Description : login page.
@@ -34,29 +39,28 @@ def server_static(filepath):
 @app.get('/')
 @app.get('/admin/login')
 def admin_login():
-    return jinja2_template('template/login.html', app_path = '/admin/login')
+    return bottle.jinja2_template('template/login.html', app_path='/admin/login')
+
 
 # Description : login process.
 #
 # Input : None
 #
-# Output : login page
-@app.post('/admin/login')
-def admin_login_process():
-    username = request.forms.get('username')
-    password = requets.forms.get('password')
-    if admin_login_check(username, password):
-        return "<p>Login success.</p>"
+# Output : login result page
+@app.post('/admin/login', mysql={'dbname': 'community_dbm'})
+def admin_login_process(db):
+    username = bottle.request.forms.get('username')
+    password = bottle.request.forms.get('password')
+    db.execute('select password, user_type_id from user where username = "' + username + '"')
+    row = db.fetchone()
+    if row:
+        if str(row[0]) == password and str(row[1]) == '4':
+            return admin_index(is_authenticated=True, request_session_original_user=True, current_username=username,
+                               user_has_usable_password=True, site_url='www.baidu.com')
+        else:
+            return "<p>Your username or password is wrong, or you are not an administrator.</p>"
     else:
         return "<p>Login failed.</p>"
-
-# Description : login check for username and password.
-#
-# Input : None
-#
-# Output : boolean
-def admin_login_check(username, password):
-    return True
 
 
 # Description : index page.
@@ -65,9 +69,8 @@ def admin_login_check(username, password):
 #
 # Output : index page
 @app.get('/admin/index')
-def admin_index():
-    return jinja2_template('template/index.html')
-
+def admin_index(**dict):
+    return bottle.jinja2_template('template/index.html', dict)
 
 
 app.run(host='localhost', port=1025, debug=True, reloader=True)
