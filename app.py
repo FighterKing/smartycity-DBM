@@ -2,11 +2,11 @@ import bottle
 import bottle_mysql
 
 app = bottle.Bottle()
-
+app.config.load_config('app.conf')
 # dbhost: optional, default is localhost
 # keyword: The keyword argument name that triggers the plugin (default: ‘db’).
-plugin = bottle_mysql.Plugin(dbuser='root', dbpass='root', dbname='community_dbm',
-                             dbhost='202.120.40.24', dictrows=False)
+plugin = bottle_mysql.Plugin(dbuser=app.config['mysql.user'], dbpass=app.config['mysql.pwd'], dbname=
+         app.config['mysql.dbname'], dbhost=app.config['mysql.host'], dictrows=['mysql.dictrows'] == 'True')
 app.install(plugin)
 
 
