@@ -72,5 +72,15 @@ def admin_login_process(db):
 def admin_index(**dict):
     return bottle.jinja2_template('template/index.html', dict)
 
+@app.get('/admin/register')
+def admin_register():
+    return bottle.jinja2_template('template/register.html')
+
+@app.post('/admin/register')
+def admin_register_process(db):
+    username = bottle.request.forms.get('username')
+    password = bottle.request.forms.get('password')
+    status = db.execute('insert into user (username, password, user_type_id) values("'+ username + '","' + password + '", 4)')
+    return bottle.jinja2_template('template/login.html', app_path='/admin/login')
 
 app.run(host='localhost', port=1025, debug=True, reloader=True)
