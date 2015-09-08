@@ -1,3 +1,4 @@
+import uuid
 import bottle
 import bottle_mysql
 
@@ -39,7 +40,8 @@ def server_static(filepath):
 @app.get('/')
 @app.get('/admin/login')
 def admin_login():
-    return bottle.jinja2_template('template/login.html', app_path='/admin/login')
+    s_id = uuid.uuid1()
+    return bottle.jinja2_template('template/login.html', app_path='/admin/login', session_id=s_id)
 
 
 # Description : login process.
@@ -51,10 +53,12 @@ def admin_login():
 def admin_login_process(db):
     username = bottle.request.forms.get('username')
     password = bottle.request.forms.get('password')
+    s_id = bottle.request.forms.get('s_id')
     db.execute('select password, user_type_id from user where username = "' + username + '"')
     row = db.fetchone()
     if row:
         if str(row[0]) == password and str(row[1]) == '4':
+            #db.execute()#保存session
             return admin_index(is_authenticated=True, request_session_original_user=True, current_username=username,
                                user_has_usable_password=True, site_url='www.baidu.com')
         else:
