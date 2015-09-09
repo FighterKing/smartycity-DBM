@@ -2,7 +2,8 @@
 
 <!-- HEAD**************************************** -->
 <!-- TITLE-->
-{% block title %}Admin Signup{% endblock %}
+{% block title %}Add user{% endblock %}
+
 <!-- EXTRAHEAD-->
 {% block extrahead %}
 <script>
@@ -26,8 +27,8 @@
 <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-4">
-        <form action="/admin/signup" method="post">
-            <h2>Administrator sign up</h2>
+        <form action="/admin/adduser" method="post">
+            <h2>Add user</h2>
             <div class="form-group">
                 <label class="sr-only" for="inputUsername">Username</label>
                 <input class="form-control" id="inputUsername" name="username" type="text" placeholder="Username" required autofocus>
@@ -39,10 +40,10 @@
             <div class="form-group">
                 <label class="sr-only" for="selectUserType">User type</label>
                 <select class="form-control" id="selectUserType">
-                    <option>Admin</option>
-                    <option disabled>Management</option>
-                    <option disabled>Service</option>
-                    <option disabled>Resident</option>
+                    <option>Management</option>
+                    <option>Resident</option>
+                    <option>Service</option>
+                    <option disabled>Admin</option>
                 </select>
             </div>
             <div class="form-group">
@@ -74,7 +75,7 @@
                 </div>
             </div>
 
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Add user</button>
         </form>
     </div>
     <div class="col-md-4"></div>
