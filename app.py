@@ -72,13 +72,13 @@ def admin_index(**dict):
     return bottle.jinja2_template('template/index.html', dict)
 
 
-@app.get('/admin/register')
-def admin_register():
-    return bottle.jinja2_template('template/register.html')
+@app.get('/admin/signup')
+def admin_signup():
+    return bottle.jinja2_template('template/signup.html')
 
 
-@app.post('/admin/register')
-def admin_register_process(db):
+@app.post('/admin/signup')
+def admin_signup_process(db):
     username = bottle.request.forms.get('username')
     password = bottle.request.forms.get('password')
     status = db.execute('insert into user (username, password, user_type_id) values("' + username + '", "' + password +

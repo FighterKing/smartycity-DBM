@@ -5,15 +5,44 @@
 {% block title %}Index{% endblock %}
 
 <!-- EXTRAHEAD-->
+{% block extrahead %}
+<script>
+    $(document).ready(function(){
+        $('#btn_add_admin').click(function(){
+            window.location.href = "/admin/signup"
+            console.log('hi')
+        })
+        $('#btn_add_user').click(function(){
+            window.location.href = "/admin/adduser"
+            console.log('hi')
+        })
+    })
+</script>
+{% endblock %}
 
 <!-- BODY**************************************** -->
 <!-- NAVIGATION -->
 
 <!-- CONTENT -->
-    <!--SIDE_BAR-->
+<!--SIDE_BAR-->
 
-    <!--CONTENT_CONTAINER-->
-    {% block content_container %}{% endblock content_container %}
+<!--CONTENT_CONTAINER-->
+{% block content_container %}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1 class="page-header">Dashboard</h1>
+
+    <div class="row placeholders">
+        <div class="col-xs-6 col-sm-3 placeholder">
+            <button class="btn btn-lg btn-primary btn-block" id="btn_add_admin">Add admin</button>
+        </div>
+        <div class="col-xs-6 col-sm-3 placeholder">
+            <button class="btn btn-lg btn-primary btn-block" id="btn_add_user">Add user</button>
+        </div>
+    </div>
+
+    <h2 class="sub-header">Section title</h2>
+</div>
+{% endblock content_container %}
 
 <!-- FOOTER -->
 
