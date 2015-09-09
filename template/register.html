@@ -1,8 +1,35 @@
-<form action="/admin/register"  method="post">
+{% extends "template/base.html" %}
 
-            <input type="text" name="username" class="textfield" placeholder="Pick a username" aria-label="Pick a username" data-autocheck-url="/signup_check/username" autofocus="">
+<!-- HEAD**************************************** -->
+<!-- TITLE-->
+{% block title %}Admin Register{% endblock %}
+<!-- EXTRAHEAD-->
 
-            <input type="password" name="password" class="textfield" placeholder="Create a password" aria-label="Create a password" data-autocheck-url="/signup_check/password">
+<!-- BODY**************************************** -->
+<!-- NAVIGATION -->
+{% block navigation %}{% endblock %}
+<!-- CONTENT -->
+{% block content %}
+<div class="container">
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <form class="form-signin" action="/admin/register" method="post">
+            <h2 class="form-signin-heading">Please sign up</h2>
+            <div class="form-group">
+                <label class="sr-only" for="inputUsername">Username</label>
+                <input class="form-control" id="inputUsername" name="username" type="text" placeholder="Username" required autofocus>
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="inputPassword">Password</label>
+                <input class="form-control" id="inputPassword" name="password" type="password" placeholder="Password" required>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+        </form>
+    </div>
+    <div class="col-md-4"></div>
+</div>
 
-        <button class="btn btn-primary btn-block" type="submit">Sign up for GitHub</button>
-</form>
+</div> <!-- /container -->
+{% endblock content %}
+<!-- FOOTER -->
