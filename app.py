@@ -145,6 +145,11 @@ def admin_user_list():
                                                                     models.User(3, 'kaiyang', 'pass', 'service')])
 
 
+@app.get('/admin/user/<userid:int>')
+def admin_user_detail(userid):
+    return bottle.jinja2_template('template/user_detail.html', user=models.User(1, 'eugene', 'pass', 'admin'))
+
+
 def check():
     s = bottle.request.environ.get('beaker.session')
     return s['username'] if s.get('username') else None

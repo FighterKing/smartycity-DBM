@@ -8,20 +8,11 @@
 {% block extrahead %}
 <script>
     $(document).ready(function(){
-        $('#tbody_user_edit').click(function(event){
-            event.stopPropagation();
-            target = event.target || event.srcElement
-            rowIndex = 0
-            if(target.tagName == 'SPAN'){
-                rowIndex = target.parentNode.parentNode.parentNode.rowIndex
-                console.log(rowIndex) //tr.rowIndex
-            }else if(target.tagName == 'BUTTON'){
-                rowIndex = target.parentNode.parentNode.rowIndex
-                console.log(rowIndex) //tr.rowIndex
-            }
-            tag = $('tr').find(rowIndex).find('.user_id')
-            console.log(tag) //tr.rowIndex
-//            window.location.href = "/admin/signup"
+        $('#tbody_user_edit').find('tr button').click(function(event){
+            user_id = $(this).parent().parent().children(":first").text()
+            console.log(user_id)
+
+            window.location.href = "/admin/user/" + user_id
         })
     })
 </script>
