@@ -1,0 +1,55 @@
+{% extends "template/base.html" %}
+
+<!-- HEAD**************************************** -->
+<!-- TITLE-->
+{% block title %}{% endblock %}
+
+<!-- EXTRAHEAD-->
+
+<!-- BODY**************************************** -->
+<!-- NAVIGATION -->
+
+<!-- CONTENT -->
+    <!--SIDE_BAR-->
+
+    <!--CONTENT_CONTAINER-->
+    {% block content_container %}
+<div class="table-responsive">
+    <h1 class="page-header">User list</h1>
+
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th>#</th><th>Icon</th><th>Username</th><th>Password</th><th>User Type</th><th>Name</th><th>Email</th><th>Identity number</th><th>Card ID</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.user_id }}</td>
+                <td><img class="img-responsive" src="{{ user.icon }}" alt="User icon"></td>
+                <td>{{ user.username or 'eugene' }}</td>
+                <td>{{ user.password }}</td>
+                <td>{{ user.user_type }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.identity_number }}</td>
+                <td>{{ user.card_id }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table><!--table-->
+</div><!--table-responsice-->
+    {% endblock content_container %}
+
+<!-- FOOTER -->
+
+<!-- EXTRA_STYLE -->
+{% block extra_style %}
+{{ super() }}
+<style>
+    .table img{
+        max-height: 24px;max-width: 24px;
+    }
+</style>
+{% endblock %}

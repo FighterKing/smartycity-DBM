@@ -13,7 +13,11 @@
             console.log('hi')
         })
         $('#btn_add_user').click(function(){
-            window.location.href = "/admin/adduser"
+            window.location.href = "/admin/user/add"
+            console.log('hi')
+        })
+        $('#btn_user_list').click(function(){
+            window.location.href = "/admin/user/list"
             console.log('hi')
         })
     })
@@ -36,6 +40,9 @@
     </div>
     <div class="col-xs-6 col-sm-3 placeholder">
         <button class="btn btn-lg btn-primary btn-block" id="btn_add_user">Add user</button>
+    </div>
+    <div class="col-xs-6 col-sm-3 placeholder">
+        <button class="btn btn-lg btn-primary btn-block" id="btn_user_list">User List</button>
     </div>
 </div>
 

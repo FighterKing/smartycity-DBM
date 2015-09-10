@@ -1,5 +1,6 @@
 import bottle
 import bottle_mysql
+import models
 from beaker.middleware import SessionMiddleware
 
 app = bottle.Bottle()
@@ -37,6 +38,11 @@ def test():
 @app.route('/static/<filepath:path>')
 def server_static(filepath):
     return bottle.static_file(filepath, root='static')
+
+
+@app.route('/file/<filepath:path>')
+def server_file(filepath):
+    return bottle.static_file(filepath, root='file')
 
 
 # Description : login page.
@@ -77,6 +83,7 @@ def admin_login_process(db):
 # Input : None
 #
 # Output : index page
+@app.get('/admin')
 @app.get('/admin/index')
 def admin_index(**dict):
     return bottle.jinja2_template('template/index.html', dict)
@@ -99,8 +106,8 @@ def admin_signup_process(db):
     password = bottle.request.forms.get('password')
     email = bottle.request.forms.get('email')
     name = bottle.request.forms.get('name')
-    identity_number = bottle.request.forms.get('identity_number') or ''
-    card_id = bottle.request.forms.get('card_id') or ''
+    identity_number = bottle.request.forms.get('identity_number')
+    card_id = bottle.request.forms.get('card_id')
 
     convert = lambda x: "'{}'".format(x) if x else 'NULL'
     username, password, email, name, identity_number, card_id = [convert(x) for x in [username, password, email, name, identity_number, card_id]]
@@ -116,18 +123,26 @@ def admin_signup_process(db):
     return bottle.jinja2_template('template/login.html', app_path='/admin/login')
 
 
-@app.get('/admin/adduser')
-def admin_add_user():
-    return bottle.jinja2_template('template/add_user.html')
+@app.get('/admin/user/add')
+def admin_user_add():
+    return bottle.jinja2_template('template/user_add.html')
 
 
-@app.post('/admin/adduser')
-def admin_add_user_process(db):
+@app.post('/admin/user/add')
+def admin_user_add_process(db):
     username = bottle.request.forms.get('username')
     password = bottle.request.forms.get('password')
     # status = db.execute('insert into user (username, password, user_type_id) values("' + username + '", "' + password +
     # '", 4)')
     # return bottle.jinja2_template('template/login.html', app_path='/admin/login')
+
+
+@app.get('/admin/user')
+@app.get('/admin/user/list')
+def admin_user_list():
+    return bottle.jinja2_template('template/user_list.html', users=[models.User(1, 'eugene', 'pass', 'admin'),
+                                                                    models.User(2, 'ernest', 'pass', 'management'),
+                                                                    models.User(3, 'kaiyang', 'pass', 'service')])
 
 
 def check():
