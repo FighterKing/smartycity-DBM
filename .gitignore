@@ -6,3 +6,5 @@ temp/
 __pycache__/
 
 app.conf
+
+data

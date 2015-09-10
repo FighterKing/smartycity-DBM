@@ -1,5 +1,6 @@
 import bottle
 import bottle_mysql
+from beaker.middleware import SessionMiddleware
 
 app = bottle.Bottle()
 app.config.load_config('app.conf')
@@ -10,6 +11,13 @@ plugin = bottle_mysql.Plugin(dbuser=app.config['mysql.user'], dbpass=app.config[
                              dictrows=['mysql.dictrows'] == 'True')
 app.install(plugin)
 
+session_opts = {
+    'session.type': 'file',
+    'session.cookie_expires': 300,
+    'session.data_dir': './data',
+    'session.auto': True
+}
+app_middlware = SessionMiddleware(app, session_opts)
 
 # Description : document template.
 #
@@ -115,5 +123,4 @@ def admin_add_user_process(db):
     #                     '", 4)')
     # return bottle.jinja2_template('template/login.html', app_path='/admin/login')
 
-
-app.run(host='localhost', port=1025, debug=True, reloader=True)
+bottle.run(host='localhost', port=1025, debug=True, reloader=True, app=app_middlware)
