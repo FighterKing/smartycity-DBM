@@ -120,7 +120,7 @@ def admin_signup_process(db):
           ', ' + password + ', 4,' + email + "," + identity_number + ',' + card_id + ',' + filename + ')'
     print(sql)
     status = db.execute(sql)
-    return bottle.jinja2_template('template/login.html', app_path='/admin/login')
+    return bottle.jinja2_template('template/login.html')
 
 
 @app.get('/admin/user/add')
