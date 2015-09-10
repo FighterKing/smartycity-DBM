@@ -84,13 +84,16 @@ def admin_index(**dict):
 
 @app.get('/admin/signup')
 def admin_signup():
-    return bottle.jinja2_template('template/signup.html') if check() else 'no'
-
+    if check():
+        return bottle.jinja2_template('template/signup.html')
+    else:
+        bottle.redirect('/')
 
 @app.post('/admin/signup')
 def admin_signup_process(db):
     if not check():
-        return 'no'
+        bottle.redirect('/')
+        
     username = bottle.request.forms.get('username')
     password = bottle.request.forms.get('password')
     email = bottle.request.forms.get('email')
