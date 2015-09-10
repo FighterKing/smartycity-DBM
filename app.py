@@ -13,7 +13,7 @@ app.install(plugin)
 
 session_opts = {
     'session.type': 'file',
-    'session.cookie_expires': 300,
+    'session.cookie_expires': 300,  # 300s
     'session.data_dir': './data',
     'session.auto': True
 }
@@ -89,29 +89,28 @@ def admin_signup():
     else:
         bottle.redirect('/')
 
+
 @app.post('/admin/signup')
 def admin_signup_process(db):
     if not check():
         bottle.redirect('/')
-        
+
     username = bottle.request.forms.get('username')
     password = bottle.request.forms.get('password')
     email = bottle.request.forms.get('email')
-    name =  bottle.request.forms.get('name')
+    name = bottle.request.forms.get('name')
+    identity_number = bottle.request.forms.get('identity_number') or ''
+    card_id = bottle.request.forms.get('card_id') or ''
+
     convert = lambda x: "'{}'".format(x) if x else 'NULL'
-    if bottle.request.forms.get('identity_number'):
-        id = bottle.request.forms.get('identity_number')[0]
-        card_id = bottle.request.forms.get('identity_number')[1]
-    else:
-        id = ''
-        card_id = ''
-    username, password, email, name, id, card_id = [convert(x) for x in [username, password, email, name, id, card_id]]
+    username, password, email, name, identity_number, card_id = [convert(x) for x in [username, password, email, name, identity_number, card_id]]
 
     upload = bottle.request.files.get('upload')
     upload.save('files')
     filename = convert(upload.filename)
-    sql = 'insert into user (username, password, user_type_id, email, identity_number, card_id, image) values(' + username +\
-          ', ' + password + ', 4,' + email + "," +  id + ',' + card_id + ',' + filename + ')'
+
+    sql = 'insert into user (username, password, user_type_id, email, identity_number, card_id, image) values(' + username + \
+          ', ' + password + ', 4,' + email + "," + identity_number + ',' + card_id + ',' + filename + ')'
     print(sql)
     status = db.execute(sql)
     return bottle.jinja2_template('template/login.html', app_path='/admin/login')
@@ -127,12 +126,13 @@ def admin_add_user_process(db):
     username = bottle.request.forms.get('username')
     password = bottle.request.forms.get('password')
     # status = db.execute('insert into user (username, password, user_type_id) values("' + username + '", "' + password +
-    #                     '", 4)')
+    # '", 4)')
     # return bottle.jinja2_template('template/login.html', app_path='/admin/login')
 
 
 def check():
     s = bottle.request.environ.get('beaker.session')
     return s['username'] if s.get('username') else None
+
 
 bottle.run(host='localhost', port=1025, debug=True, reloader=True, app=app_middlware)
