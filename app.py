@@ -63,6 +63,8 @@ def admin_login_process(db):
     row = db.fetchone()
     if row:
         if str(row[0]) == password and str(row[1]) == '4':
+            s = bottle.request.environ.get('beaker.session')
+            s['username'] = username
             return admin_index()
         else:
             return "<p>Your username or password is wrong, or you are not an administrator.</p>"
@@ -82,11 +84,13 @@ def admin_index(**dict):
 
 @app.get('/admin/signup')
 def admin_signup():
-    return bottle.jinja2_template('template/signup.html')
+    return bottle.jinja2_template('template/signup.html') if check() else 'no'
 
 
 @app.post('/admin/signup')
 def admin_signup_process(db):
+    if not check():
+        return 'no'
     username = bottle.request.forms.get('username')
     password = bottle.request.forms.get('password')
     email = bottle.request.forms.get('email')
@@ -122,5 +126,10 @@ def admin_add_user_process(db):
     # status = db.execute('insert into user (username, password, user_type_id) values("' + username + '", "' + password +
     #                     '", 4)')
     # return bottle.jinja2_template('template/login.html', app_path='/admin/login')
+
+
+def check():
+    s = bottle.request.environ.get('beaker.session')
+    return s['username'] if s.get('username') else None
 
 bottle.run(host='localhost', port=1025, debug=True, reloader=True, app=app_middlware)
