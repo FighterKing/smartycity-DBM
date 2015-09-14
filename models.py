@@ -15,6 +15,17 @@ class User(object):
         self.identity_number = identity_number
         self.card_id = card_id
 
+class Personnel(object):
+    def __init__(self, user_id, name, position, job_detail, role, block_number, address_detail):
+        super().__init__()
+        self.user_id = user_id
+        self.name = name
+        self.position = position
+        self.job_detail = job_detail
+        self.role = role
+        self.block_number = block_number
+        self.address_detail = address_detail
+
 class Apartment(object):
     def __init__(self, building_id, building_name, building_description, apartment_id, apartment_name, area, owner, serial_number):
         super().__init__()

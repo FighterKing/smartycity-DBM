@@ -145,6 +145,15 @@ def admin_apartment_list():
                                               models.Apartment(103, '3号', 'Building 103 description', 103, '203', 90, 'Young', '310110196004020313')])
 
 
+@app.get('/admin/personnel')
+@app.get('/admin/personnel/list')
+def admin_personnel_list():
+    return bottle.jinja2_template('template/personnel_list.html',
+                                  personnels=[models.Personnel(1, 'Eugene', '块长', '块长职责', '居委会', '第一块区（1-11、21、22）', '国和路888弄32号101室'),
+                                              models.Personnel(2, 'Ernest', '楼组长', '楼组长职责', '居委会', '第二块区（1-11、21、22）', '国和路888弄32号102室'),
+                                              models.Personnel(3, 'Young', '党总支书记', '党总支书记职责', '居委会', '第三块区（1-11、21、22）', '国和路888弄32号103室')])
+
+
 def check():
     s = bottle.request.environ.get('beaker.session')
     return s['username'] if s.get('username') else None
