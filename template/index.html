@@ -11,9 +11,6 @@
         $('#btn_add_admin').click(function(){
             window.location.href = "/admin/signup"
         })
-        $('#btn_add_user').click(function(){
-            window.location.href = "/admin/user/add"
-        })
         $('#btn_user_list').click(function(){
             window.location.href = "/admin/user/list"
         })
@@ -33,13 +30,16 @@
 
 <div class="row placeholders">
     <div class="col-xs-6 col-sm-3 placeholder">
-        <button class="btn btn-lg btn-primary btn-block" id="btn_add_admin">Add admin</button>
-    </div>
-    <div class="col-xs-6 col-sm-3 placeholder">
-        <button class="btn btn-lg btn-primary btn-block" id="btn_add_user">Add user</button>
+        <button class="btn btn-lg btn-primary btn-block" id="btn_add_admin">User Signup</button>
     </div>
     <div class="col-xs-6 col-sm-3 placeholder">
         <button class="btn btn-lg btn-primary btn-block" id="btn_user_list">User List</button>
+    </div>
+</div>
+
+<div class="row placeholders">
+    <div class="col-xs-6 col-sm-3 placeholder">
+        <button class="btn btn-lg btn-primary btn-block" id="btn_">Community</button>
     </div>
 </div>
 
@@ -49,3 +49,15 @@
 <!-- FOOTER -->
 
 <!-- EXTRA_STYLE -->
+{% block extra_style %}
+{{  super() }}
+<style>
+    .placeholders {
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    .placeholders h4 {
+        margin-bottom: 0;
+    }
+</style>
+{% endblock extra_style %}

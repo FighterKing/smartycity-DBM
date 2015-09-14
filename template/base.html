@@ -49,17 +49,17 @@
         {% block side_bar %}
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">Reports</a></li>
-                <li><a href="#">Analytics</a></li>
+                <li><h4 class="sub-header">Basic Data</h4></li>
+                <li class="active"><a href="/admin/user/list">Users<span class="sr-only">(current)</span></a></li>
+                <li><a href="#">Community</a></li>
             </ul>
             <ul class="nav nav-sidebar">
-                <li><a href="">Nav item</a></li>
-                <li><a href="">Nav item again</a></li>
+                <li><h4 class="sub-header">Meta Data</h4></li>
+                <li><a href="#">Manage</a></li>
             </ul>
             <ul class="nav nav-sidebar">
-                <li><a href="">Nav item again</a></li>
-                <li><a href="">One more nav</a></li>
+                <li><h4 class="sub-header">DB Generator</h4></li>
+                <li><a href="#">Manage</a></li>
             </ul>
         </div>
         {% endblock side_bar %}
@@ -108,7 +108,12 @@
       margin-bottom: 20px;
       margin-left: -20px;
     }
+    .nav-sidebar .sub-header { padding-bottom: 5px;border-bottom: 1px solid #eee; }
     .nav-sidebar > li > a {
+      padding-right: 20px;
+      padding-left: 20px;
+    }
+    .nav-sidebar > li > h4 {
       padding-right: 20px;
       padding-left: 20px;
     }
@@ -128,13 +133,6 @@
     }
     .main .page-header { margin-top: 0; }
     /*Placeholder dashboard ideas*/
-    .placeholders {
-      margin-bottom: 30px;
-      text-align: center;
-    }
-    .placeholders h4 {
-      margin-bottom: 0;
-    }
     .placeholder {
       margin-bottom: 20px;
     }

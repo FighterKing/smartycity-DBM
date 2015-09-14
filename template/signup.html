@@ -2,7 +2,7 @@
 
 <!-- HEAD**************************************** -->
 <!-- TITLE-->
-{% block title %}Admin Signup{% endblock %}
+{% block title %}User Signup{% endblock %}
 <!-- EXTRAHEAD-->
 {% block extrahead %}
 <script>
@@ -27,7 +27,7 @@
     <div class="col-md-3"></div>
     <div class="col-md-4">
         <form action="/admin/signup" method="post"  enctype="multipart/form-data">
-            <h2>Administrator sign up</h2>
+            <h2>User Signup</h2>
             <div class="form-group">
                 <label class="sr-only" for="inputUsername">Username</label>
                 <input class="form-control" id="inputUsername" name="username" type="text" placeholder="Username" required autofocus>
@@ -39,10 +39,10 @@
             <div class="form-group">
                 <label class="sr-only" for="selectUserType">User type</label>
                 <select class="form-control" id="selectUserType">
+                    <option>Resident</option>
+                    <option>Management</option>
+                    <option>Service</option>
                     <option>Admin</option>
-                    <option disabled>Management</option>
-                    <option disabled>Service</option>
-                    <option disabled>Resident</option>
                 </select>
             </div>
             <div class="form-group">

@@ -123,20 +123,6 @@ def admin_signup_process(db):
     return bottle.jinja2_template('template/login.html')
 
 
-@app.get('/admin/user/add')
-def admin_user_add():
-    return bottle.jinja2_template('template/user_add.html')
-
-
-@app.post('/admin/user/add')
-def admin_user_add_process(db):
-    username = bottle.request.forms.get('username')
-    password = bottle.request.forms.get('password')
-    # status = db.execute('insert into user (username, password, user_type_id) values("' + username + '", "' + password +
-    # '", 4)')
-    # return bottle.jinja2_template('template/login.html', app_path='/admin/login')
-
-
 @app.get('/admin/user')
 @app.get('/admin/user/list')
 def admin_user_list():
