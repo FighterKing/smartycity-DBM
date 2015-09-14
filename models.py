@@ -14,3 +14,16 @@ class User(object):
         self.email = email
         self.identity_number = identity_number
         self.card_id = card_id
+
+class Apartment(object):
+    def __init__(self, building_id, building_name, building_description, apartment_id, apartment_name, area, owner, serial_number):
+        super().__init__()
+        self.building_id = building_id
+        self.building_name = building_name
+        self.building_description = building_description
+        self.apartment_id = apartment_id
+        self.apartment_name = apartment_name
+        self.area = area
+        self.owner = owner
+        self.serial_number = serial_number
+

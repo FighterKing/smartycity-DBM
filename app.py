@@ -136,6 +136,15 @@ def admin_user_detail(userid):
     return bottle.jinja2_template('template/user_detail.html', user=models.User(1, 'eugene', 'pass', 'admin'))
 
 
+@app.get('/admin/apartment')
+@app.get('/admin/apartment/list')
+def admin_apartment_list():
+    return bottle.jinja2_template('template/apartment_list.html',
+                                  apartments=[models.Apartment(101, '1号', 'Building 101 description', 101, '201', 60, 'Eugene', '310110196004020311'),
+                                              models.Apartment(102, '2号', 'Building 102 description', 102, '202', 80, 'Ernest', '310110196004020312'),
+                                              models.Apartment(103, '3号', 'Building 103 description', 103, '203', 90, 'Young', '310110196004020313')])
+
+
 def check():
     s = bottle.request.environ.get('beaker.session')
     return s['username'] if s.get('username') else None
