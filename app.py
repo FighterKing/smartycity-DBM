@@ -99,27 +99,7 @@ def admin_signup():
 
 @app.post('/admin/signup')
 def admin_signup_process(db):
-    if not check():
-        bottle.redirect('/')
-
-    username = bottle.request.forms.get('username')
-    password = bottle.request.forms.get('password')
-    email = bottle.request.forms.get('email')
-    name = bottle.request.forms.get('name')
-    identity_number = bottle.request.forms.get('identity_number')
-    card_id = bottle.request.forms.get('card_id')
-
-    convert = lambda x: "'{}'".format(x) if x else 'NULL'
-    username, password, email, name, identity_number, card_id = [convert(x) for x in [username, password, email, name, identity_number, card_id]]
-
-    upload = bottle.request.files.get('upload')
-    upload.save('files')
-    filename = convert(upload.filename)
-
-    sql = 'insert into user (username, password, user_type_id, email, identity_number, card_id, image) values(' + username + \
-          ', ' + password + ', 4,' + email + "," + identity_number + ',' + card_id + ',' + filename + ')'
-    print(sql)
-    status = db.execute(sql)
+    add_user(db)
     return bottle.jinja2_template('template/login.html')
 
 
@@ -157,6 +137,30 @@ def admin_personnel_list():
 def check():
     s = bottle.request.environ.get('beaker.session')
     return s['username'] if s.get('username') else None
+
+
+def add_user(db):
+    if not check():
+        bottle.redirect('/')
+
+    username = bottle.request.forms.get('username')
+    password = bottle.request.forms.get('password')
+    email = bottle.request.forms.get('email')
+    name =  bottle.request.forms.get('name')
+    id = bottle.request.forms.get('identity_number')
+    card_id = bottle.request.forms.get('card_number')
+
+    convert = lambda x: "'{}'".format(x) if x else 'NULL'
+
+    username, password, email, name, id, card_id = [convert(x) for x in [username, password, email, name, id, card_id]]
+    select_user_type = bottle.request.forms.get('selectUserType')
+    upload = bottle.request.files.get('upload')
+    upload.save('files')
+    filename = convert(upload.filename)
+    sql = 'insert into user (username, password, user_type_id, email, identity_number, card_id, image) values(' + username +\
+          ', ' + password + ',' + select_user_type + "," + email + "," +  id + ',' + card_id + ',' + filename + ')'
+    print(sql)
+    status = db.execute(sql)
 
 
 bottle.run(host='localhost', port=1025, debug=True, reloader=True, app=app_middlware)
