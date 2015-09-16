@@ -105,10 +105,17 @@ def admin_signup_process(db):
 
 @app.get('/admin/user')
 @app.get('/admin/user/list')
-def admin_user_list():
-    return bottle.jinja2_template('template/user_list.html', users=[models.User(1, 'eugene', 'pass', 'admin'),
-                                                                    models.User(2, 'ernest', 'pass', 'management'),
-                                                                    models.User(3, 'kaiyang', 'pass', 'service')])
+def admin_user_list(db):
+    sql = 'select image, username, password, user_type_id,name, email, identity_number, card_id from user'
+    db.execute(sql)
+    it = iter(db)
+    users = []
+    user_type_map = {1: 'managemment',2:'service', 3:'resident',4:'admin'}
+    for i, row in enumerate(it):
+        print(i, row)
+        users.append(models.User(i, row[1], row[2], user_type_map[row[3]], '/files/' + (row[0] if row[0] else '') , row[4], row[5],
+                                row[6], row[7]))
+    return bottle.jinja2_template('template/user_list.html', users=users)
 
 
 @app.get('/admin/user/<userid:int>')
