@@ -106,14 +106,13 @@ def admin_signup_process(db):
 @app.get('/admin/user')
 @app.get('/admin/user/list')
 def admin_user_list(db):
-    sql = 'select image, username, password, user_type_id,name, email, identity_number, card_id from user'
+    sql = 'select image, username, password, user_type_id,name, email, identity_number, card_id, user_id from user'
     db.execute(sql)
     it = iter(db)
     users = []
     user_type_map = {1: 'managemment',2:'service', 3:'resident',4:'admin'}
     for i, row in enumerate(it):
-        print(i, row)
-        users.append(models.User(i, row[1], row[2], user_type_map[row[3]], '/files/' + (row[0] if row[0] else '') , row[4], row[5],
+        users.append(models.User(row[8], row[1], row[2], user_type_map[row[3]], '/files/' + (row[0] if row[0] else '') , row[4], row[5],
                                 row[6], row[7]))
     return bottle.jinja2_template('template/user_list.html', users=users)
 
@@ -139,6 +138,13 @@ def admin_personnel_list():
                                   personnels=[models.Personnel(1, 'Eugene', '块长', '块长职责', '居委会', '第一块区（1-11、21、22）', '国和路888弄32号101室'),
                                               models.Personnel(2, 'Ernest', '楼组长', '楼组长职责', '居委会', '第二块区（1-11、21、22）', '国和路888弄32号102室'),
                                               models.Personnel(3, 'Young', '党总支书记', '党总支书记职责', '居委会', '第三块区（1-11、21、22）', '国和路888弄32号103室')])
+
+
+@app.get('/admin/user/delete/<userid>')
+def admin_user_delete(userid, db):
+    sql = 'delete from user where user_id = ' + userid
+    db.execute(sql)
+    return 'ok'
 
 
 def check():
