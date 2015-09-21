@@ -1,6 +1,7 @@
 import bottle
 import bottle_mysql
 import models
+import dbm
 from beaker.middleware import SessionMiddleware
 
 app = bottle.Bottle()
@@ -27,6 +28,9 @@ app_middlware = SessionMiddleware(app, session_opts)
 # Output : test page
 @app.route('/test')
 def test():
+    vdbm = dbm.DbM('')
+    vdbm.update(table='user', condition='where 1=1', name=1, value="2")
+
     return bottle.jinja2_template('template/base.html')
 
 
@@ -174,6 +178,5 @@ def add_user(db):
           ', ' + password + ',' + select_user_type + "," + email + "," +  id + ',' + card_id + ',' + filename + ')'
     print(sql)
     status = db.execute(sql)
-
 
 bottle.run(host='localhost', port=1025, debug=True, reloader=True, app=app_middlware)
