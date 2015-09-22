@@ -145,14 +145,14 @@ def admin_personnel_list():
                                               models.Personnel(3, 'Young', '党总支书记', '党总支书记职责', '居委会', '第三块区（1-11、21、22）', '国和路888弄32号103室')])
 
 
-@app.get('/admin/user/delete/<userid>')
+@app.delete('/admin/user/<userid>')
 def admin_user_delete(userid, db):
     sql = 'delete from user where user_id = ' + userid
     db.execute(sql)
     return 'ok'
 
 
-@app.put('/admin/user/update/<userid>')
+@app.put('/admin/user/<userid>')
 def admin_user_update(userid, db):
     username = bottle.request.forms.get('username')
     password = bottle.request.forms.get('password')

@@ -1,5 +1,5 @@
 
-        <form class="form-horizontal">
+        <form class="form-horizontal" name="formUserBasic" action="" method="put" enctype="multipart/form-data">
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="img_user">Photo</label>
                 <div class="col-sm-9">
@@ -24,10 +24,10 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="select_user_type">User type</label>
                 <div class="col-sm-9">
-                    <select class="form-control" id="select_user_type">
-                        <option>Management</option>
-                        <option>Service</option>
-                        <option>Resident</option>
+                    <select class="form-control" id="select_user_type" name="user_type_id">
+                        <option value="1">Management</option>
+                        <option value="2">Service</option>
+                        <option value="3">Resident</option>
                         <option disabled>Admin</option>
                     </select>
                 </div>
@@ -56,5 +56,5 @@
                     <input class="form-control" id="input_card_id" type="text" value="{{ user.card_id }}">
                 </div>
             </div>
-            <button class="btn btn-lg btn-primary btn-block" id="btn_update_all">Update All</button>
+            <button class="btn btn-lg btn-primary btn-block" id="btn_update_user_basic" type="submit">Update All</button>
         </form>

@@ -5,6 +5,17 @@
 {% block title %}User Details{% endblock %}
 
 <!-- EXTRAHEAD-->
+{% block extrahead %}
+<script>
+    $(document).ready(function(){
+        var url = window.location.href
+        var strs = url.toString().split("/")
+        var user_id = strs[strs.length - 1]
+        document.formUserBasic.action = "/admin/user/" + user_id
+        console.log(document.formUserBasic.action)
+    })
+</script>
+{% endblock %}
 
 <!-- BODY**************************************** -->
 <!-- NAVIGATION -->
