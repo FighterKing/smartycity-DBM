@@ -21,14 +21,15 @@ session_opts = {
 }
 app_middlware = SessionMiddleware(app, session_opts)
 
+
 # Description : document template.
 #
 # Input : None
 #
 # Output : test page
 @app.route('/test')
-def test():
-    vdbm = dbm.DbM('')
+def test(db):
+    vdbm = dbm.DbM(db)
     vdbm.update(table='user', condition='where 1=1', name=1, value="2")
 
     return bottle.jinja2_template('template/base.html')
@@ -114,10 +115,10 @@ def admin_user_list(db):
     db.execute(sql)
     it = iter(db)
     users = []
-    user_type_map = {1: 'managemment',2:'service', 3:'resident',4:'admin'}
+    user_type_map = {1: 'managemment', 2: 'service', 3: 'resident', 4: 'admin'}
     for i, row in enumerate(it):
-        users.append(models.User(row[8], row[1], row[2], user_type_map[row[3]], '/files/' + (row[0] if row[0] else '') , row[4], row[5],
-                                row[6], row[7]))
+        users.append(models.User(row[8], row[1], row[2], user_type_map[row[3]], '/files/' + (row[0] if row[0] else ''),
+                                 row[4], row[5], row[6], row[7]))
     return bottle.jinja2_template('template/user_list.html', users=users)
 
 
@@ -151,6 +152,23 @@ def admin_user_delete(userid, db):
     return 'ok'
 
 
+@app.put('/admin/user/update/<userid>')
+def admin_user_update(userid, db):
+    username = bottle.request.forms.get('username')
+    password = bottle.request.forms.get('password')
+    email = bottle.request.forms.get('email')
+    name = bottle.request.forms.get('name')
+    identity_number = bottle.request.forms.get('identity_number')
+    card_id = bottle.request.forms.get('card_id')
+    user_type_id = bottle.request.forms.get('user_type_id')
+    image = bottle.request.files.get('image')
+    image.save('files')
+    vdbm = dbm.DbM(db)
+    vdbm.update(table='user', condition=' where user_id=' + userid,  username=username, password=password, email=email,
+                name=name, identity_number=identity_number, cared_id=card_id, user_type_id=user_type_id,
+                image=image.filename)
+
+
 def check():
     s = bottle.request.environ.get('beaker.session')
     return s['username'] if s.get('username') else None
@@ -163,7 +181,7 @@ def add_user(db):
     username = bottle.request.forms.get('username')
     password = bottle.request.forms.get('password')
     email = bottle.request.forms.get('email')
-    name =  bottle.request.forms.get('name')
+    name = bottle.request.forms.get('name')
     id = bottle.request.forms.get('identity_number')
     card_id = bottle.request.forms.get('card_number')
 
