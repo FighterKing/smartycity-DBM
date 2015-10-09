@@ -122,9 +122,17 @@ def admin_user_list(db):
     return bottle.jinja2_template('template/user_list.html', users=users)
 
 
-@app.get('/admin/user/<userid:int>')
-def admin_user_detail(userid):
-    return bottle.jinja2_template('template/user_detail.html', user=models.User(1, 'eugene', 'pass', 'admin'))
+@app.get('/admin/user/<userid>')
+def admin_user_detail(userid, db):
+    sql = 'select * from  user_role where user_id=' + userid
+    db.execute(sql)
+    it = iter(db)
+    user_roles = []
+    for i, row in enumerate(it):
+        user_roles.append(models.User_Role(row[0], row[1], row[2], row[3], row[4]))
+
+    return bottle.jinja2_template('template/user_detail.html', user=models.User(1, 'eugene', 'pass', 'admin'),
+                                  user_roles=user_roles)
 
 
 @app.get('/admin/apartment')

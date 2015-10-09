@@ -38,3 +38,12 @@ class Apartment(object):
         self.owner = owner
         self.serial_number = serial_number
 
+
+class User_Role(object):
+    def __init__(self, user_role_id, user_id, role_id, description, description_detail):
+        super().__init__()
+        self.user_role_id = user_role_id
+        self.user_id = user_id
+        self.role_id = role_id
+        self.description = description
+        self.description_detail = description_detail
