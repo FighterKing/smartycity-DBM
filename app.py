@@ -143,7 +143,7 @@ def admin_user_detail(userid, db):
         user_roles.append(models.User_Role(row[0], row[1], row[2], row[3], row[4], row[5]))
 
     return bottle.jinja2_template('template/user_detail.html', user=user,
-                                  user_role=user_roles)
+                                  user_roles=user_roles)
 
 
 @app.get('/admin/apartment')

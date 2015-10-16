@@ -8,11 +8,42 @@
 {% block extrahead %}
 <script>
     $(document).ready(function(){
-        var url = window.location.href
-        var strs = url.toString().split("/")
-        var user_id = strs[strs.length - 1]
-        document.formUserBasic.action = "/admin/user/" + user_id
-        console.log(document.formUserBasic.action)
+        setUserBasicFormAction()
+        setUserType()
+        setRoleTypeId()
+        setRolePositionId()
+
+        function setRolePositionId(){
+            var role_position_id = $("#select_role_position").attr("rolePositionVal")
+            $("#select_role_position").val(role_position_id)
+        }
+        function setRoleTypeId(){
+            var role_type_id = $("#select_role").attr("roleTypeVal")
+            $("#select_role").val(role_type_id)
+        }
+        function setUserType(){
+            var optionText = $("#select_user_type").attr("optionText")
+            switch(optionText){
+                case "management":
+                    $("#select_user_type").val("1")
+                    break
+                case "service":
+                    $("#select_user_type").val("2")
+                    break
+                case "resident":
+                    $("#select_user_type").val("3")
+                    break
+                default :
+                    break
+            }
+        }
+        function setUserBasicFormAction() {
+            var url = window.location.href
+            var strs = url.toString().split("/")
+            var user_id = strs[strs.length - 1]
+            document.formUserBasic.action = "/admin/user/" + user_id
+            console.log(document.formUserBasic.action)
+        }
     })
 </script>
 {% endblock %}

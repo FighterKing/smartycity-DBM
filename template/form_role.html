@@ -3,54 +3,54 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="select_role">Role</label>
                 <div class="col-sm-9">
-                    <select class="form-control" id="select_role" name="role_type_id">
-                        <option>居委会</option>
-                        <option>业委会</option>
-                        <option>物业</option>
-                        <option>居民</option>
-                        <option>块长</option>
-                        <option>楼组长</option>
-                        <option>党员</option>
+                    <select class="form-control" id="select_role" name="role_type_id" roleTypeVal="{{ user_roles[0].role_type_id if user_roles else 1 }}">
+                        <option value="1">居委会</option>
+                        <option value="2">业委会</option>
+                        <option value="3">物业</option>
+                        <option value="4">居民</option>
+                        <option value="5">块长</option>
+                        <option value="6">楼组长</option>
+                        <option value="7">党员</option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="select_role_position">Position</label>
                 <div class="col-sm-9">
-                    <select class="form-control" id="select_role_position" name="role_id">
-                        <option>块长</option>
-                        <option>楼组长</option>
-                        <option>党总支书记</option>
-                        <option>居委会主任</option>
-                        <option>民政老龄主任</option>
-                        <option>治保主任</option>
-                        <option>调解主任</option>
-                        <option>计生主任</option>
-                        <option>妇代主任</option>
-                        <option>卫生主任</option>
-                        <option>文教主任</option>
+                    <select class="form-control" id="select_role_position" name="role_id" rolePositionVal="{{ user_roles[0].role_id if user_roles else 1 }}">
+                        <option value="1">块长</option>
+                        <option value="2">楼组长</option>
+                        <option value="3">党总支书记</option>
+                        <option value="4">居委会主任</option>
+                        <option value="5">民政老龄主任</option>
+                        <option value="6">治保主任</option>
+                        <option value="7">调解主任</option>
+                        <option value="8">计生主任</option>
+                        <option value="9">妇代主任</option>
+                        <option value="10">卫生主任</option>
+                        <option value="11">文教主任</option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="input_role_job_description">Job detail</label>
                 <div class="col-sm-9">
-                    <input class="form-control" id="input_role_job_description" name="role_description" type="text" placeholder="{{ user_role.role_description if user_role else 'ex.块长职责' }}">
+                    <input class="form-control" id="input_role_job_description" name="role_description" type="text" placeholder="{{ user_roles[0].role_description if user_roles else 'ex.块长职责' }}">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="input_role_job_block">Block #</label>
                 <div class="col-sm-9">
-                    <input class="form-control" id="input_role_job_block" name="user_role_description" type="text" placeholder="{{ user_role.user_role_description if user_role else 'ex.第一块区（1-11、21、22）' }}">
+                    <input class="form-control" id="input_role_job_block" name="user_role_description" type="text" placeholder="{{ user_roles[0].user_role_description if user_roles else 'ex.第一块区（1-11、21、22）' }}">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="input_addr_detail">Addr. detail</label>
                 <div class="col-sm-9">
-                    <input class="form-control" id="input_addr_detail" name="description_detail" type="text" placeholder="{{ user_role.description_detail if user_role else 'ex.国和路888弄32号101室' }}">
+                    <input class="form-control" id="input_addr_detail" name="description_detail" type="text" placeholder="{{ user_roles[0].description_detail if user_roles else 'ex.国和路888弄32号101室' }}">
                 </div>
             </div>
-            {% if user_role %}
+            {% if user_roles %}
             <button class="btn btn-lg btn-primary btn-block" id="btn_update_user_role">Update All</button>
             {% else %}
             <button class="btn btn-lg btn-primary btn-block" id="btn_add_user_role">Add Role</button>
