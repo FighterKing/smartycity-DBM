@@ -181,14 +181,15 @@ def admin_user_update(userid, db):
 def admin_userrole_update(user_role_id, db):
     user_id = bottle.request.forms.get('user_id')
     role_id = bottle.request.forms.get('role_id')
-    description = bottle.request.forms.get('description')
+    role_description = bottle.request.forms.get('role_description')
+    user_role_description = bottle.request.forms.get('user_role_description')
     description_detail = bottle.request.forms.get('description_detail')
     role_type_id = bottle.request.forms.get('role_type_id')
 
     vdbm = dbm.DbM(db)
-    vdbm.update(table='role', condition=' where role_id=' + role_id,  role_type_id=role_type_id)
+    vdbm.update(table='role', condition=' where role_id=' + role_id,  role_type_id=role_type_id, description=role_description)
     vdbm.update(table='user_role', condition=' where user_role_id=' + user_role_id,  role_id=role_id,
-                description=description, description_detail=description_detail)
+                description=description_detail, description_detail=description_detail)
 
 
 def check():
