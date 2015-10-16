@@ -40,10 +40,11 @@ class Apartment(object):
 
 
 class User_Role(object):
-    def __init__(self, user_role_id, user_id, role_id, description, description_detail):
+    def __init__(self, user_role_id, user_id, role_id, role_description, user_role_description, description_detail):
         super().__init__()
         self.user_role_id = user_role_id
         self.user_id = user_id
         self.role_id = role_id
-        self.description = description
+        self.role_description = role_description
+        self.user_role_description = user_role_description
         self.description_detail = description_detail

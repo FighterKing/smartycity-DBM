@@ -128,11 +128,11 @@ def admin_user_detail(userid, db):
     db.execute(sql)
     it = iter(db)
     user_roles = []
-    for i, row in enumerate(it):
-        user_roles.append(models.User_Role(row[0], row[1], row[2], row[3], row[4]))
+    # for i, row in enumerate(it):
+    #     user_roles.append(models.User_Role(row[0], row[1], row[2], row[3], row[4]))
 
     return bottle.jinja2_template('template/user_detail.html', user=models.User(1, 'eugene', 'pass', 'admin'),
-                                  user_roles=user_roles)
+                                  user_role=models.User_Role(1, 1, 1, '块长的职责', '第一块区（1-11、21、22）', '国和路888弄32号101室'))
 
 
 @app.get('/admin/apartment')
@@ -177,8 +177,8 @@ def admin_user_update(userid, db):
                 image=image.filename)
 
 
-@app.put('/admin/userrole/<user_role_id>')
-def admin_userrole_update(user_role_id, db):
+@app.put('/admin/user/role/<user_role_id>')
+def admin_user_role_update(user_role_id, db):
     role_id = bottle.request.forms.get('role_id')
     role_description = bottle.request.forms.get('role_description')
     user_role_description = bottle.request.forms.get('user_role_description')
