@@ -124,15 +124,26 @@ def admin_user_list(db):
 
 @app.get('/admin/user/<userid>')
 def admin_user_detail(userid, db):
-    sql = 'select * from  user_role where user_id=' + userid
+    sql = 'select user_id, username, password, user_type_id, image, name, email, identity_number,  card_id from user ' \
+          'where user_id=' + userid
+    db.execute(sql)
+    user_row = db.fetchone()
+    sql = 'select type from user_type where user_type_id='+ str(user_row[3])
+    db.execute(sql)
+    user_type_row = db.fetchone()
+    user = models.User(user_row[0], user_row[1], user_row[2], user_type_row[0], user_row[4], user_row[5], user_row[6],
+                       user_row[7], user_row[8])
+
+    sql = 'select user_role_id, user_id, role.role_id, role.description, user_role.description, ' \
+          'description_detail from  user_role join role on role.role_id=user_role.role_id where user_id=' + userid
     db.execute(sql)
     it = iter(db)
     user_roles = []
-    # for i, row in enumerate(it):
-    #     user_roles.append(models.User_Role(row[0], row[1], row[2], row[3], row[4]))
+    for i, row in enumerate(it):
+        user_roles.append(models.User_Role(row[0], row[1], row[2], row[3], row[4], row[5]))
 
-    return bottle.jinja2_template('template/user_detail.html', user=models.User(1, 'eugene', 'pass', 'admin'),
-                                  user_role=models.User_Role(1, 1, 1, '块长的职责', '第一块区（1-11、21、22）', '国和路888弄32号101室'))
+    return bottle.jinja2_template('template/user_detail.html', user=user,
+                                  user_role=user_roles)
 
 
 @app.get('/admin/apartment')
