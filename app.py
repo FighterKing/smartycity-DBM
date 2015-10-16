@@ -134,13 +134,13 @@ def admin_user_detail(userid, db):
     user = models.User(user_row[0], user_row[1], user_row[2], user_type_row[0], user_row[4], user_row[5], user_row[6],
                        user_row[7], user_row[8])
 
-    sql = 'select user_role_id, user_id, role.role_id, role.description, user_role.description, ' \
+    sql = 'select user_role_id, user_id, role.role_id, role_type_id,role.description, user_role.description, ' \
           'description_detail from  user_role join role on role.role_id=user_role.role_id where user_id=' + userid
     db.execute(sql)
     it = iter(db)
     user_roles = []
     for i, row in enumerate(it):
-        user_roles.append(models.User_Role(row[0], row[1], row[2], row[3], row[4], row[5]))
+        user_roles.append(models.User_Role(row[0], row[1], row[2], row[3], row[4], row[5], row[6]))
 
     return bottle.jinja2_template('template/user_detail.html', user=user,
                                   user_roles=user_roles)
