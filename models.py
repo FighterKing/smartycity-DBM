@@ -2,7 +2,7 @@
 # __author__ = 'Eugene'
 
 class User(object):
-    def __init__(self, user_id, username, password, user_type, icon='/file/default_user.png', name='default', email='null',
+    def __init__(self, user_id, username, password, user_type, icon='/files/default_user.png', name='default', email='null',
                  identity_number='null', card_id='null'):
         super().__init__()
         self.user_id = user_id

@@ -45,9 +45,9 @@ def server_static(filepath):
     return bottle.static_file(filepath, root='static')
 
 
-@app.route('/file/<filepath:path>')
+@app.route('/files/<filepath:path>')
 def server_file(filepath):
-    return bottle.static_file(filepath, root='file')
+    return bottle.static_file(filepath, root='files')
 
 
 # Description : login page.
@@ -117,8 +117,8 @@ def admin_user_list(db):
     users = []
     user_type_map = {1: 'managemment', 2: 'service', 3: 'resident', 4: 'admin'}
     for i, row in enumerate(it):
-        users.append(models.User(row[8], row[1], row[2], user_type_map[row[3]], '/files/' + (row[0] if row[0] else ''),
-                                 row[4], row[5], row[6], row[7]))
+        users.append(models.User(row[8], row[1], row[2][0:10] + '...', user_type_map[row[3]], '/files/' + 'default_user.png',
+                                 row[4], row[5], row[6][0:18] if row[6] else None, row[7]))
     return bottle.jinja2_template('template/user_list.html', users=users)
 
 
