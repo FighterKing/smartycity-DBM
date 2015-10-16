@@ -173,19 +173,18 @@ def admin_user_delete(userid, db):
 
 @app.put('/admin/user/<userid>')
 def admin_user_update(userid, db):
-    username = bottle.request.forms.get('username')
     password = bottle.request.forms.get('password')
     email = bottle.request.forms.get('email')
     name = bottle.request.forms.get('name')
     identity_number = bottle.request.forms.get('identity_number')
     card_id = bottle.request.forms.get('card_id')
     user_type_id = bottle.request.forms.get('user_type_id')
-    image = bottle.request.files.get('image')
-    image.save('files')
+    # image = bottle.request.files.get('image')
+    # image.save('files')
     vdbm = dbm.DbM(db)
-    vdbm.update(table='user', condition=' where user_id=' + userid,  username=username, password=password, email=email,
-                name=name, identity_number=identity_number, cared_id=card_id, user_type_id=user_type_id,
-                image=image.filename)
+    vdbm.update(table='user', condition=' where user_id=' + userid, password=password, email=email,
+                name=name, identity_number=identity_number, card_id=card_id, user_type_id=user_type_id,
+                image='default.jpg')
 
 
 @app.put('/admin/user/role/<user_role_id>')

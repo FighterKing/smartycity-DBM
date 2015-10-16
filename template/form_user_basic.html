@@ -12,13 +12,13 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="input_username">Username</label>
                 <div class="col-sm-9">
-                    <input class="form-control" id="input_username" type="text" placeholder="{{ user.username }}" readonly >
+                    <input class="form-control" id="input_username" type="text" value="{{ user.username }}" readonly >
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="input_password">Password</label>
                 <div class="col-sm-9">
-                    <input class="form-control" id="input_password" type="password" placeholder="******">
+                    <input class="form-control" id="input_password" name="password" type="password" value="{{ user.password }}">
                 </div>
             </div>
             <div class="form-group">
@@ -35,25 +35,25 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="input_name">Name</label>
                 <div class="col-sm-9">
-                    <input class="form-control" id="input_name" type="text" value="{{ user.name }}">
+                    <input class="form-control" id="input_name" name="name" type="text" value="{{ user.name }}">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="input_email">Email</label>
                 <div class="col-sm-9">
-                    <input class="form-control" id="input_email" type="email" value="{{ user.email }}">
+                    <input class="form-control" id="input_email" name="email" type="email" value="{{ user.email if user.email else 'default@163.com' }}">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="input_identity_number">Identity #</label>
                 <div class="col-sm-9">
-                    <input class="form-control" id="input_identity_number" type="text" value="{{ user.identity_number }}">
+                    <input class="form-control" id="input_identity_number" name="identity_number" type="text" value="{{ user.identity_number if user.identity_number else 'null' }}">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="input_card_id">Card ID</label>
                 <div class="col-sm-9">
-                    <input class="form-control" id="input_card_id" type="text" value="{{ user.card_id }}">
+                    <input class="form-control" id="input_card_id" name="card_id" type="text" value="{{ user.card_id if user.card_id else 'null' }}">
                 </div>
             </div>
             <button class="btn btn-lg btn-primary btn-block" id="btn_update_user_basic" type="submit">Update All</button>
