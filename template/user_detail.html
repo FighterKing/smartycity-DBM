@@ -8,11 +8,29 @@
 {% block extrahead %}
 <script>
     $(document).ready(function(){
-        setUserBasicFormAction()
+//        setUserBasicFormAction()
         setUserType()
         setRoleTypeId()
         setRolePositionId()
 
+        $("#btn_update_user_basic").on("click", function(){
+        	$("#formUserBasic").submit(function(e){
+	            putUserBasicInfo()
+                e.preventDefault(); //STOP default action
+                e.unbind(); //unbind. to stop multiple form submit.
+	            return false //为了不刷新页面,返回false
+	        })
+        })
+        
+        function putUserBasicInfo(){
+            $("#formUserBasic").ajaxSubmit({
+                type: "PUT",
+                url: "/admin/user/" + getUserId(),
+                success: function () {
+                    alert("Update success.")
+                }
+            })
+        }
         function setRolePositionId(){
             var role_position_id = $("#select_role_position").attr("rolePositionVal")
             $("#select_role_position").val(role_position_id)
@@ -38,11 +56,13 @@
             }
         }
         function setUserBasicFormAction() {
+            document.formUserBasic.action = "/admin/user/" + getUserId()
+            console.log(document.formUserBasic.action)
+        }
+        function getUserId(){
             var url = window.location.href
             var strs = url.toString().split("/")
-            var user_id = strs[strs.length - 1]
-            document.formUserBasic.action = "/admin/user/" + user_id
-            console.log(document.formUserBasic.action)
+            return strs[strs.length - 1]
         }
     })
 </script>
