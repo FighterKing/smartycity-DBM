@@ -68,8 +68,8 @@ def admin_login():
 # Output : login result page
 @app.post('/admin/login', mysql={'dbname': 'community_dbm'})
 def admin_login_process(db):
-    username = bottle.request.forms.get('username')
-    password = bottle.request.forms.get('password')
+    username = bottle.request.forms.username
+    password = bottle.request.forms.password
     db.execute('select password, user_type_id from user where username = "' + username + '"')
     row = db.fetchone()
     if row:
@@ -173,12 +173,12 @@ def admin_user_delete(userid, db):
 
 @app.put('/admin/user/<userid>')
 def admin_user_update(userid, db):
-    password = bottle.request.forms.get('password')
-    email = bottle.request.forms.get('email')
-    name = bottle.request.forms.get('name')
-    identity_number = bottle.request.forms.get('identity_number')
-    card_id = bottle.request.forms.get('card_id')
-    user_type_id = bottle.request.forms.get('user_type_id')
+    password = bottle.request.forms.password
+    email = bottle.request.forms.email
+    name = bottle.request.forms.name
+    identity_number = bottle.request.forms.identity_number
+    card_id = bottle.request.forms.card_id
+    user_type_id = bottle.request.forms.user_type_id
     # image = bottle.request.files.get('image')
     # image.save('files')
     vdbm = dbm.DbM(db)
@@ -189,11 +189,11 @@ def admin_user_update(userid, db):
 
 @app.put('/admin/user/role/<user_role_id>')
 def admin_user_role_update(user_role_id, db):
-    role_id = bottle.request.forms.get('role_id')
-    role_description = bottle.request.forms.get('role_description')
-    user_role_description = bottle.request.forms.get('user_role_description')
-    description_detail = bottle.request.forms.get('description_detail')
-    role_type_id = bottle.request.forms.get('role_type_id')
+    role_id = bottle.request.forms.role_id
+    role_description = bottle.request.forms.role_description
+    user_role_description = bottle.request.forms.user_role_description
+    description_detail = bottle.request.forms.description_detail
+    role_type_id = bottle.request.forms.role_type_id
 
     vdbm = dbm.DbM(db)
     vdbm.update(table='role', condition=' where role_id=' + role_id,  role_type_id=role_type_id, description=role_description)
@@ -210,17 +210,17 @@ def add_user(db):
     if not check():
         bottle.redirect('/')
 
-    username = bottle.request.forms.get('username')
-    password = bottle.request.forms.get('password')
-    email = bottle.request.forms.get('email')
-    name = bottle.request.forms.get('name')
-    id = bottle.request.forms.get('identity_number')
-    card_id = bottle.request.forms.get('card_number')
+    username = bottle.request.forms.username
+    password = bottle.request.forms.password
+    email = bottle.request.forms.email
+    name = bottle.request.forms.name
+    id = bottle.request.forms.identity_number
+    card_id = bottle.request.forms.card_number
 
     convert = lambda x: "'{}'".format(x) if x else 'NULL'
 
     username, password, email, name, id, card_id = [convert(x) for x in [username, password, email, name, id, card_id]]
-    select_user_type = bottle.request.forms.get('selectUserType')
+    select_user_type = bottle.request.forms.selectUserType
     upload = bottle.request.files.get('upload')
     upload.save('files')
     filename = convert(upload.filename)
