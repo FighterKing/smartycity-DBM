@@ -201,6 +201,32 @@ def admin_user_role_update(user_role_id, db):
                 description=user_role_description, description_detail=description_detail)
 
 
+@app.put('/admin/user/livingcard/<livingcard_id>')
+def admin_user_livingcard_update(livingcard_id, db):
+    vdbm = dbm.DbM(db)
+    vdbm.update(table='livingcard', condition=' where livingcard_id=' + livingcard_id,
+                form_dict=bottle.request.forms.dict)
+
+
+@app.put('/admin/user/netcard/<netcard_id>')
+def admin_user_netcard_update(netcard_id, db):
+    vdbm = dbm.DbM(db)
+    vdbm.update(table='netcard', condition=' where netcard_id=' + netcard_id,  form_dict=bottle.request.forms.dict)
+
+
+@app.put('/admin/user/partycard/<partycard_id>')
+def admin_user_partycard_update(partycard_id, db):
+     vdbm = dbm.DbM(db)
+     vdbm.update(table='partycard', condition=' where partycard_id=' + partycard_id,
+                 form_dict=bottle.request.forms.dict)
+
+
+@app.put('/admin/user/citizen/<citizen_id>')
+def admin_user_citizencard_update(citizen_id, db):
+    vdbm = dbm.DbM(db)
+    vdbm.update(table='citizen_resident', condition=' where citizen_id=' + citizen_id,
+                form_dict=bottle.request.forms.dict)
+
 def check():
     s = bottle.request.environ.get('beaker.session')
     return s['username'] if s.get('username') else None
