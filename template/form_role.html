@@ -1,5 +1,6 @@
 
         <form class="form-horizontal" id="formRoleInfo">
+            <input hidden id="input_user_role_id" name="user_role_id" type="text" value="{{ user_roles[0].user_role_id if user_roles else 0 }}">
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="select_role">Role</label>
                 <div class="col-sm-9">

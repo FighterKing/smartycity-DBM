@@ -50,7 +50,20 @@ class User_Role(object):
         self.user_role_description = user_role_description
         self.description_detail = description_detail
 
-class User_Reside_Info(object):
+class User_Living_Info(object): # TODO
     def __init__(self, user_role_id, user_id, role_id, role_type_id, role_description):
         super().__init__()
         self.user_role_id = user_role_id
+
+class User_Resident_Info(object): # TODO
+    def __init__(self, user_role_id, user_id, role_id, role_type_id, role_description):
+        super().__init__()
+
+class User_Net_Info(object): # TODO
+    def __init__(self, user_role_id, user_id, role_id, role_type_id, role_description):
+        super().__init__()
+
+class User_Party_Info(object): # TODO
+    def __init__(self, user_role_id, user_id, role_id, role_type_id, role_description):
+        super().__init__()
+
