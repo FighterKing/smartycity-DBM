@@ -8,20 +8,42 @@
 {% block extrahead %}
 <script>
     $(document).ready(function(){
-//        setUserBasicFormAction()
         setUserType()
         setRoleTypeId()
         setRolePositionId()
 
+        $("#btn_update_user_role").on("click", function(){
+        	$("#formRoleInfo").submit(function(e){
+	            putUserRoleInfo()
+                e.preventDefault(); //STOP default action
+                //e.unbind(); //unbind. to stop multiple form submit.
+	            return false //为了不刷新页面,返回false
+	        })
+        })
         $("#btn_update_user_basic").on("click", function(){
         	$("#formUserBasic").submit(function(e){
 	            putUserBasicInfo()
                 e.preventDefault(); //STOP default action
-//                e.unbind(); //unbind. to stop multiple form submit.
+                //e.unbind(); //unbind. to stop multiple form submit.
 	            return false //为了不刷新页面,返回false
 	        })
         })
-        
+
+        function putUserRoleInfo(){
+            $.ajax({
+                type: "PUT",
+                url: "/admin/user/role/" + getUserId(),
+                //contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+                data: {"role_type_id":$("#select_role").val(),
+                    "role_id":$("#select_role_position").val(),
+                    "role_description":$("#input_role_job_description").val(),
+                    "user_role_description":$("#input_role_job_block").val(),
+                    "description_detail":$("#input_addr_detail").val()},
+                success: function () {
+                    alert("Update success.")
+                }
+            })
+        }
         function putUserBasicInfo(){
             $.ajax({
                 type: "PUT",
@@ -62,10 +84,6 @@
                 default :
                     break
             }
-        }
-        function setUserBasicFormAction() {
-            document.formUserBasic.action = "/admin/user/" + getUserId()
-            console.log(document.formUserBasic.action)
         }
         function getUserId(){
             var url = window.location.href

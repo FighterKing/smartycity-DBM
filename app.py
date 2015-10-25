@@ -124,6 +124,7 @@ def admin_user_list(db):
 
 @app.get('/admin/user/<userid>')
 def admin_user_detail(userid, db):
+    # User Basic Infomation
     sql = 'select user_id, username, password, user_type_id, image, name, email, identity_number,  card_id from user ' \
           'where user_id=' + userid
     db.execute(sql)
@@ -133,7 +134,7 @@ def admin_user_detail(userid, db):
     user_type_row = db.fetchone()
     user = models.User(user_row[0], user_row[1], user_row[2], user_type_row[0], user_row[4], user_row[5], user_row[6],
                        user_row[7], user_row[8])
-
+    # User Role Information
     sql = 'select user_role_id, user_id, role.role_id, role_type_id,role.description, user_role.description, ' \
           'description_detail from  user_role join role on role.role_id=user_role.role_id where user_id=' + userid
     db.execute(sql)
@@ -141,6 +142,14 @@ def admin_user_detail(userid, db):
     user_roles = []
     for i, row in enumerate(it):
         user_roles.append(models.User_Role(row[0], row[1], row[2], row[3], row[4], row[5], row[6]))
+
+    # User Resident Information TODO
+
+    # Party Card TODO
+
+    # Net Card TODO
+
+    # Reside Card TODO
 
     return bottle.jinja2_template('template/user_detail.html', user=user,
                                   user_roles=user_roles)
@@ -204,6 +213,7 @@ def admin_user_role_update(user_role_id, db):
 @app.put('/admin/user/livingcard/<livingcard_id>')
 def admin_user_livingcard_update(livingcard_id, db):
     vdbm = dbm.DbM(db)
+    #数据库字段名参考：livingcard_id, name, address, zip_code, house_number, user_id
     vdbm.update(table='livingcard', condition=' where livingcard_id=' + livingcard_id,
                 form_dict=bottle.request.forms.dict)
 
@@ -211,12 +221,15 @@ def admin_user_livingcard_update(livingcard_id, db):
 @app.put('/admin/user/netcard/<netcard_id>')
 def admin_user_netcard_update(netcard_id, db):
     vdbm = dbm.DbM(db)
+    #数据库字段名参考：netcard_id, nickname, image, commuity_user_id, user_id
     vdbm.update(table='netcard', condition=' where netcard_id=' + netcard_id,  form_dict=bottle.request.forms.dict)
 
 
 @app.put('/admin/user/partycard/<partycard_id>')
 def admin_user_partycard_update(partycard_id, db):
      vdbm = dbm.DbM(db)
+     # 数据库字段名参考：partycard_id, relation, party_branch, position, type, status, join_date, confirm_date,
+     # inspection_person, application_id, user_id
      vdbm.update(table='partycard', condition=' where partycard_id=' + partycard_id,
                  form_dict=bottle.request.forms.dict)
 
@@ -224,6 +237,10 @@ def admin_user_partycard_update(partycard_id, db):
 @app.put('/admin/user/citizen/<citizen_id>')
 def admin_user_citizencard_update(citizen_id, db):
     vdbm = dbm.DbM(db)
+    # 数据库字段名参考：citizen_id, name, identification_type, identification_value, marriage_status,
+    # employment_status, residence_category, resident_status, education_status, politics_status,
+    # migration_status, income_status, nation, gender, relationship, user_id, apartment_id,
+    # age, status, phone
     vdbm.update(table='citizen_resident', condition=' where citizen_id=' + citizen_id,
                 form_dict=bottle.request.forms.dict)
 

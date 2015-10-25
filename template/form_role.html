@@ -1,5 +1,5 @@
 
-        <form class="form-horizontal">
+        <form class="form-horizontal" id="formRoleInfo">
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="select_role">Role</label>
                 <div class="col-sm-9">
@@ -35,19 +35,19 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="input_role_job_description">Job detail</label>
                 <div class="col-sm-9">
-                    <input class="form-control" id="input_role_job_description" name="role_description" type="text" placeholder="{{ user_roles[0].role_description if user_roles else 'ex.块长职责' }}">
+                    <input class="form-control" id="input_role_job_description" name="role_description" type="text" value="{{ user_roles[0].role_description if user_roles else 'ex.块长职责' }}">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="input_role_job_block">Block #</label>
                 <div class="col-sm-9">
-                    <input class="form-control" id="input_role_job_block" name="user_role_description" type="text" placeholder="{{ user_roles[0].user_role_description if user_roles else 'ex.第一块区（1-11、21、22）' }}">
+                    <input class="form-control" id="input_role_job_block" name="user_role_description" type="text" value="{{ user_roles[0].user_role_description if user_roles else 'ex.第一块区（1-11、21、22）' }}">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="input_addr_detail">Addr. detail</label>
                 <div class="col-sm-9">
-                    <input class="form-control" id="input_addr_detail" name="description_detail" type="text" placeholder="{{ user_roles[0].description_detail if user_roles else 'ex.国和路888弄32号101室' }}">
+                    <input class="form-control" id="input_addr_detail" name="description_detail" type="text" value="{{ user_roles[0].description_detail if user_roles else 'ex.国和路888弄32号101室' }}">
                 </div>
             </div>
             {% if user_roles %}
