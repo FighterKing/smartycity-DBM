@@ -150,7 +150,7 @@ def admin_user_detail(userid, db):
     kv_dict = {}
     for index, val in enumerate(user_resident_row):
         kv_dict[db.description[index][0]] = val
-    user_redisent = models.User_Resident_Info(**kv_dict)
+    user_resident_info = models.User_Resident_Info(**kv_dict)
 
     # Party Card
     sql = 'select * from partycard where user_id=' + userid
@@ -159,7 +159,7 @@ def admin_user_detail(userid, db):
     kv_dict = {}
     for index, val in enumerate(user_party_row):
         kv_dict[db.description[index][0]] = val
-    user_party = models.User_Party_Info(**kv_dict)
+    user_party_info = models.User_Party_Info(**kv_dict)
 
     # Net Card
     sql = 'select * from netcard where user_id=' + userid
@@ -168,7 +168,7 @@ def admin_user_detail(userid, db):
     kv_dict = {}
     for index, val in enumerate(user_net_row):
         kv_dict[db.description[index][0]] = val
-    user_net = models.User_Net_Info(**kv_dict)
+    user_net_info = models.User_Net_Info(**kv_dict)
 
     # Reside Card
     sql = 'select * from livingcard where user_id=' + userid
@@ -179,9 +179,9 @@ def admin_user_detail(userid, db):
         kv_dict[db.description[index][0]] = val
     user_living = models.User_Living_Info(**kv_dict)
 
-    return bottle.jinja2_template('template/user_detail.html', user=user,
-                                  user_roles=user_roles, user_living=user_living,user_net=user_net,user_party=user_party
-                                  ,user_redisent=user_redisent)
+    return bottle.jinja2_template('template/user_detail.html', user=user, user_roles=user_roles,
+                                  user_living=user_living,user_net_info=user_net_info,user_party_info=user_party_info
+                                  ,user_resident_info=user_resident_info)
 
 
 @app.get('/admin/apartment')
@@ -243,15 +243,17 @@ def admin_user_role_update(user_role_id, db):
 def admin_user_livingcard_update(livingcard_id, db):
     vdbm = dbm.DbM(db)
     #数据库字段名参考：livingcard_id, name, address, zip_code, house_number, user_id
+    utf_forms = bottle.request.forms.decode("utf-8")
     vdbm.update(table='livingcard', condition=' where livingcard_id=' + livingcard_id,
-                form_dict=bottle.request.forms.dict)
+                form_dict=utf_forms.dict)
 
 
 @app.put('/admin/user/netcard/<netcard_id>')
 def admin_user_netcard_update(netcard_id, db):
     vdbm = dbm.DbM(db)
     #数据库字段名参考：netcard_id, nickname, image, commuity_user_id, user_id
-    vdbm.update(table='netcard', condition=' where netcard_id=' + netcard_id,  form_dict=bottle.request.forms.dict)
+    utf_forms = bottle.request.forms.decode("utf-8")
+    vdbm.update(table='netcard', condition=' where netcard_id=' + netcard_id,  form_dict=utf_forms.dict)
 
 
 @app.put('/admin/user/partycard/<partycard_id>')
@@ -259,8 +261,9 @@ def admin_user_partycard_update(partycard_id, db):
      vdbm = dbm.DbM(db)
      # 数据库字段名参考：partycard_id, relation, party_branch, position, type, status, join_date, confirm_date,
      # inspection_person, application_id, user_id
+     utf_forms = bottle.request.forms.decode("utf-8")
      vdbm.update(table='partycard', condition=' where partycard_id=' + partycard_id,
-                 form_dict=bottle.request.forms.dict)
+                 form_dict=utf_forms.dict)
 
 
 @app.put('/admin/user/citizen/<citizen_id>')
@@ -270,8 +273,9 @@ def admin_user_citizencard_update(citizen_id, db):
     # employment_status, residence_category, resident_status, education_status, politics_status,
     # migration_status, income_status, nation, gender, relationship, user_id, apartment_id,
     # age, status, phone
+    utf_forms = bottle.request.forms.decode("utf-8")
     vdbm.update(table='citizen_resident', condition=' where citizen_id=' + citizen_id,
-                form_dict=bottle.request.forms.dict)
+                form_dict=utf_forms.dict)
 
 def check():
     s = bottle.request.environ.get('beaker.session')

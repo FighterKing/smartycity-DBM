@@ -65,8 +65,6 @@ class User_Resident_Info(Entity):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-
-
 class User_Net_Info(Entity):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

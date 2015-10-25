@@ -1,10 +1,10 @@
 
-        <form class="form-horizontal">
+        <form class="form-horizontal" id="formPartyInfo">
             <input hidden id="input_user_partycard_id" name="user_partycard_id" type="text" value="{{ user_party_info.partycard_id if user_party_info else 0 }}">
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="input_party_relation">Party Rel.</label>
                 <div class="col-sm-9">
-                    <input class="form-control" id="input_party_relation" type="text" placeholder="{{ user_party_info.relation if user_party_info else '杨浦区XX小区党支部' }}">
+                    <input class="form-control" id="input_party_relation" type="text" value="{{ user_party_info.relation if user_party_info else '杨浦区XX小区党支部' }}">
                 </div>
             </div>
             <div class="form-group">
