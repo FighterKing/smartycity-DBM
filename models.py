@@ -1,6 +1,13 @@
 
 # __author__ = 'Eugene'
 
+
+class Entity(object):
+    def __init__(self, **kwargs):
+        for key, val in kwargs.items():
+            setattr(self, key, kwargs[key])
+
+
 class User(object):
     def __init__(self, user_id, username, password, user_type, icon='/files/default_user.png', name='default', email='null',
                  identity_number='null', card_id='null'):
@@ -50,20 +57,21 @@ class User_Role(object):
         self.user_role_description = user_role_description
         self.description_detail = description_detail
 
-class User_Living_Info(object): # TODO
-    def __init__(self, user_role_id, user_id, role_id, role_type_id, role_description):
-        super().__init__()
-        self.user_role_id = user_role_id
+class User_Living_Info(Entity):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
-class User_Resident_Info(object): # TODO
-    def __init__(self, user_role_id, user_id, role_id, role_type_id, role_description):
-        super().__init__()
+class User_Resident_Info(Entity):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
-class User_Net_Info(object): # TODO
-    def __init__(self, user_role_id, user_id, role_id, role_type_id, role_description):
-        super().__init__()
 
-class User_Party_Info(object): # TODO
-    def __init__(self, user_role_id, user_id, role_id, role_type_id, role_description):
-        super().__init__()
+
+class User_Net_Info(Entity):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+class User_Party_Info(Entity):
+    def __init__(self,**kwargs):
+        super().__init__(**kwargs)
 

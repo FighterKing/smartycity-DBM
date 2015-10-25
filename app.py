@@ -143,16 +143,45 @@ def admin_user_detail(userid, db):
     for i, row in enumerate(it):
         user_roles.append(models.User_Role(row[0], row[1], row[2], row[3], row[4], row[5], row[6]))
 
-    # User Resident Information TODO
+    # User Resident Information
+    sql = 'select * from citizen_resident where user_id=' + userid
+    db.execute(sql)
+    user_resident_row = db.fetchone()
+    kv_dict = {}
+    for index, val in enumerate(user_resident_row):
+        kv_dict[db.description[index][0]] = val
+    user_redisent = models.User_Resident_Info(**kv_dict)
 
-    # Party Card TODO
+    # Party Card
+    sql = 'select * from partycard where user_id=' + userid
+    db.execute(sql)
+    user_party_row = db.fetchone()
+    kv_dict = {}
+    for index, val in enumerate(user_party_row):
+        kv_dict[db.description[index][0]] = val
+    user_party = models.User_Party_Info(**kv_dict)
 
-    # Net Card TODO
+    # Net Card
+    sql = 'select * from netcard where user_id=' + userid
+    db.execute(sql)
+    user_net_row = db.fetchone()
+    kv_dict = {}
+    for index, val in enumerate(user_net_row):
+        kv_dict[db.description[index][0]] = val
+    user_net = models.User_Net_Info(**kv_dict)
 
-    # Reside Card TODO
+    # Reside Card
+    sql = 'select * from livingcard where user_id=' + userid
+    db.execute(sql)
+    user_living_row = db.fetchone()
+    kv_dict = {}
+    for index, val in enumerate(user_living_row):
+        kv_dict[db.description[index][0]] = val
+    user_living = models.User_Living_Info(**kv_dict)
 
     return bottle.jinja2_template('template/user_detail.html', user=user,
-                                  user_roles=user_roles)
+                                  user_roles=user_roles, user_living=user_living,user_net=user_net,user_party=user_party
+                                  ,user_redisent=user_redisent)
 
 
 @app.get('/admin/apartment')
