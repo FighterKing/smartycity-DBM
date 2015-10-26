@@ -134,6 +134,7 @@ def admin_user_detail(userid, db):
     user_type_row = db.fetchone()
     user = models.User(user_row[0], user_row[1], user_row[2], user_type_row[0], user_row[4], user_row[5], user_row[6],
                        user_row[7], user_row[8])
+
     # User Role Information
     sql = 'select user_role_id, user_id, role.role_id, role_type_id,role.description, user_role.description, ' \
           'description_detail from  user_role join role on role.role_id=user_role.role_id where user_id=' + userid
@@ -148,6 +149,8 @@ def admin_user_detail(userid, db):
     db.execute(sql)
     user_resident_row = db.fetchone()
     kv_dict = {}
+    if user_resident_row is None:
+        user_resident_row = []
     for index, val in enumerate(user_resident_row):
         kv_dict[db.description[index][0]] = val
     user_resident_info = models.User_Resident_Info(**kv_dict)
@@ -157,6 +160,8 @@ def admin_user_detail(userid, db):
     db.execute(sql)
     user_party_row = db.fetchone()
     kv_dict = {}
+    if user_party_row is None:
+        user_party_row = []
     for index, val in enumerate(user_party_row):
         kv_dict[db.description[index][0]] = val
     user_party_info = models.User_Party_Info(**kv_dict)
@@ -166,6 +171,8 @@ def admin_user_detail(userid, db):
     db.execute(sql)
     user_net_row = db.fetchone()
     kv_dict = {}
+    if user_net_row is None:
+        user_net_row = []
     for index, val in enumerate(user_net_row):
         kv_dict[db.description[index][0]] = val
     user_net_info = models.User_Net_Info(**kv_dict)
@@ -175,6 +182,8 @@ def admin_user_detail(userid, db):
     db.execute(sql)
     user_living_row = db.fetchone()
     kv_dict = {}
+    if user_living_row is None:
+        user_living_row = []
     for index, val in enumerate(user_living_row):
         kv_dict[db.description[index][0]] = val
     user_living = models.User_Living_Info(**kv_dict)
@@ -259,12 +268,13 @@ def admin_user_livingcard_update(livingcard_id, db):
     vdbm.update(table='livingcard', condition=' where livingcard_id=' + livingcard_id,
                 form_dict=utf_forms.dict)
 
- @app.post('/admin/user/livingcard')
+
+@app.post('/admin/user/livingcard')
 def admin_user_livingcard_add( db):
     vdbm = dbm.DbM(db)
     # 数据库字段名参考：livingcard_id, name, address, zip_code, house_number, user_id
-    # utf_forms = bottle.request.forms.decode("utf-8")
-    vdbm.insert(table='livingcard', **bottle.request.forms.dict)
+    utf_forms = bottle.request.forms.decode("utf-8")
+    vdbm.insert(table='livingcard', **utf_forms)
 
 
 @app.put('/admin/user/netcard/<netcard_id>')
@@ -279,8 +289,8 @@ def admin_user_netcard_update(netcard_id, db):
 def admin_user_netcard_add(db):
     vdbm = dbm.DbM(db)
     # 数据库字段名参考：netcard_id, nickname, image, commuity_user_id, user_id
-    # utf_forms = bottle.request.forms.decode("utf-8")
-    vdbm.insert(table='netcard', **bottle.request.forms.dict)
+    utf_forms = bottle.request.forms.decode("utf-8")
+    vdbm.insert(table='netcard', **utf_forms)
 
 
 @app.put('/admin/user/partycard/<partycard_id>')
@@ -292,13 +302,14 @@ def admin_user_partycard_update(partycard_id, db):
      vdbm.update(table='partycard', condition=' where partycard_id=' + partycard_id,
                  form_dict=utf_forms.dict)
 
+
 @app.post('/admin/user/partycard')
 def admin_user_partycard_add(db):
      vdbm = dbm.DbM(db)
      # 数据库字段名参考：partycard_id, relation, party_branch, position, type, status, join_date, confirm_date,
      # inspection_person, application_id, user_id
-     # utf_forms = bottle.request.forms.decode("utf-8")
-     vdbm.insert(table='partycard',**bottle.request.forms.dict)
+     utf_forms = bottle.request.forms.decode("utf-8")
+     vdbm.insert(table='partycard',**utf_forms)
 
 
 @app.put('/admin/user/citizen/<citizen_id>')
@@ -312,6 +323,7 @@ def admin_user_citizencard_update(citizen_id, db):
     vdbm.update(table='citizen_resident', condition=' where citizen_id=' + citizen_id,
                 form_dict=utf_forms.dict)
 
+
 @app.post('/admin/user/citizen')
 def admin_user_citizencard_add(db):
     vdbm = dbm.DbM(db)
@@ -319,7 +331,8 @@ def admin_user_citizencard_add(db):
     # employment_status, residence_category, resident_status, education_status, politics_status,
     # migration_status, income_status, nation, gender, relationship, user_id, apartment_id,
     # age, status, phone
-    vdbm.insert(table='citizen_resident', **bottle.request.forms.dict)
+    utf_forms = bottle.request.forms.decode("utf-8")
+    vdbm.insert(table='citizen_resident', **utf_forms)
 
 def check():
     s = bottle.request.environ.get('beaker.session')

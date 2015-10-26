@@ -13,6 +13,137 @@
         setRoleTypeId()
         setRolePositionId()
         setResidentSelectedValues()
+
+        /* 插入数据 */
+        $("#btn_add_partycard").on("click", function(){
+        	$("#formPartyInfo").submit(function(e){
+	            postUserPartyInfo()
+                e.preventDefault(); //STOP default action
+	            return false //为了不刷新页面,返回false
+	        })
+        })
+        $("#btn_add_living_info").on("click", function(){
+        	$("#formLivingInfo").submit(function(e){
+	            postUserLivingInfo()
+                e.preventDefault(); //STOP default action
+	            return false //为了不刷新页面,返回false
+	        })
+        })
+        $("#btn_add_net_info").on("click", function(){
+        	$("#formNetInfo").submit(function(e){
+	            postUserNetInfo()
+                e.preventDefault(); //STOP default action
+	            return false //为了不刷新页面,返回false
+	        })
+        })
+        $("#btn_add_resident_info").on("click", function(){
+        	$("#formResidentInfo").submit(function(e){
+	            postUserResidentInfo()
+                e.preventDefault(); //STOP default action
+	            return false //为了不刷新页面,返回false
+	        })
+        })
+        $("#btn_add_user_role").on("click", function(){
+        	$("#formRoleInfo").submit(function(e){
+	            postUserRoleInfo()
+                e.preventDefault(); //STOP default action
+	            return false //为了不刷新页面,返回false
+	        })
+        })
+        function postUserPartyInfo(){
+            $.ajax({
+                type: "POST",
+                url: "/admin/user/partycard",
+                data: {
+                    "user_id":getUserId(),
+                    "relation":$("#input_party_relation").val(),
+                    "party_branch":$("#input_party_branch").val(),
+                    "position":$("#input_position").val(),
+                    "type":$("#select_member_type").val(),
+                    "join_date":$("#input_apply_date").val(),
+                    "confirm_date":$("#input_join_date").val(),
+                    "inspection_person":$("#input_inspector").val(),
+                    "application_id":$("#input_apply_id").val(),
+                },
+                success: function () {
+                    alert("Add user party information success.")
+                }
+            })
+        }
+        function postUserLivingInfo(){
+            $.ajax({
+                type: "POST",
+                url: "/admin/user/livingcard",
+                data: {
+                    "user_id":getUserId(),
+                    "name":$("#input_reside_name").val(),
+                    "address":$("#input_address").val(),
+                    "house_number":$("#input_house_number").val(),
+                    "zip_code":$("#input_zipcode").val()
+                },
+                success: function () {
+                    alert("Add user Reside card success.")
+                }
+            })
+        }
+        function postUserNetInfo(){
+            $.ajax({
+                type: "POST",
+                url: "/admin/user/netcard",
+                data: {
+                    "user_id":getUserId(),
+                    "nickname":$("#input_nickname").val(),
+                    "commuity_user_id":$("#input_community_id").val(),
+                },
+                success: function () {
+                    alert("Add user net card success.")
+                }
+            })
+        }
+        function postUserResidentInfo(){
+            $.ajax({
+                type: "POST",
+                url: "/admin/user/citizen",
+                data: {
+                    "user_id":getUserId(),
+                    "identification_type":$("#select_identification_type").val(),
+                    "identification_value":$("#input_identification_value").val(),
+                    "marriage_status":$("#select_marriage").val(),
+                    "employment_status":$("#select_employment").val(),
+                    "residence_category":$("#select_residence_type").val(),
+                    "resident_status":$("#select_residence_status").val(),
+                    "education_status":$("#select_education").val(),
+                    "politics_status":$("#select_party").val(),
+                    "migration_status":$("#select_nationality").val(),
+                    "income_status":$("#select_income_status").val(),
+                    "nation":$("#select_nation").val(),
+                    "gender":$("#select_gender").val(),
+                    "phone":$("#input_phone").val(),
+                    "age":$("#input_age").val()
+                },
+                success: function () {
+                    alert("Add user resident information success.")
+                }
+            })
+        }
+        function postUserRoleInfo(){
+            $.ajax({
+                type: "POST",
+                url: "/admin/user/role",
+                data: {
+                    "user_id":getUserId(),
+                    "role_type_id":$("#select_role").val(),
+                    "role_id":$("#select_role_position").val(),
+                    "role_description":$("#input_role_job_description").val(),
+                    "user_role_description":$("#input_role_job_block").val(),
+                    "description_detail":$("#input_addr_detail").val()},
+                success: function () {
+                    alert("Add user role information success.")
+                }
+            })
+        }
+
+        /* 更新数据 */
         $("#btn_update_partycard").on("click", function(){
         	$("#formPartyInfo").submit(function(e){
 	            putUserPartyInfo()
@@ -56,7 +187,6 @@
 	            return false //为了不刷新页面,返回false
 	        })
         })
-
         function putUserPartyInfo(){
             $.ajax({
                 type: "PUT",
@@ -160,6 +290,7 @@
                 }
             })
         }
+
         function setPartyMemberType(){
             var member_type_id = $("#select_member_type").attr("typeVal")
             $("#select_member_type").val(member_type_id)
@@ -263,8 +394,8 @@
         <h3 class="sub-header text-left">Basic Infomation</h3>
         {% include "template/form_user_basic.html" %}
         <!--Real Name Card-->
-        <h3 class="sub-header text-left">Name Card</h3>
-        {% include "template/form_card_realname.html" %}
+        <!--<h3 class="sub-header text-left">Name Card</h3>-->
+        {# {% include "template/form_card_realname.html" %} #}
     </div>
 
     <div class="col-xs-5 col-xs-offset-1 col-sm-5 col-sm-offset-1 placeholder">
