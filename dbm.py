@@ -15,3 +15,15 @@ class DbM:
         print(sql)
         status = self.db.execute(sql)
         return status
+
+    def insert(self, *, table ,  **kwargs):
+        sql = 'insert into ' + table + ' ('
+        for key in kwargs.keys():
+            sql += key + ', '
+        sql = sql[:-2] + ') values ('
+        for val in kwargs.values():
+            sql += repr(val[0]) + ', '
+        sql = sql[:-2] + ' )'
+        print(sql)
+        status = self.db.execute(sql)
+        return status

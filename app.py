@@ -238,6 +238,18 @@ def admin_user_role_update(user_role_id, db):
     vdbm.update(table='user_role', condition=' where user_role_id=' + user_role_id,  role_id=role_id,
                 description=user_role_description, description_detail=description_detail)
 
+@app.post('/admin/user/role')
+def admin_user_role_add(db):
+    role_id = bottle.request.forms.role_id
+    role_description = bottle.request.forms.role_description
+    user_role_description = bottle.request.forms.user_role_description
+    description_detail = bottle.request.forms.description_detail
+    role_type_id = bottle.request.forms.role_type_id
+
+    vdbm = dbm.DbM(db)
+    vdbm.insert(table='role', role_type_id=role_type_id, description=role_description)
+    vdbm.insert(table='user_role', role_id=role_id, description=user_role_description, description_detail=description_detail)
+
 
 @app.put('/admin/user/livingcard/<livingcard_id>')
 def admin_user_livingcard_update(livingcard_id, db):
@@ -246,6 +258,13 @@ def admin_user_livingcard_update(livingcard_id, db):
     utf_forms = bottle.request.forms.decode("utf-8")
     vdbm.update(table='livingcard', condition=' where livingcard_id=' + livingcard_id,
                 form_dict=utf_forms.dict)
+
+ @app.post('/admin/user/livingcard')
+def admin_user_livingcard_add( db):
+    vdbm = dbm.DbM(db)
+    # 数据库字段名参考：livingcard_id, name, address, zip_code, house_number, user_id
+    # utf_forms = bottle.request.forms.decode("utf-8")
+    vdbm.insert(table='livingcard', **bottle.request.forms.dict)
 
 
 @app.put('/admin/user/netcard/<netcard_id>')
@@ -256,6 +275,14 @@ def admin_user_netcard_update(netcard_id, db):
     vdbm.update(table='netcard', condition=' where netcard_id=' + netcard_id,  form_dict=utf_forms.dict)
 
 
+@app.post('/admin/user/netcard')
+def admin_user_netcard_add(db):
+    vdbm = dbm.DbM(db)
+    # 数据库字段名参考：netcard_id, nickname, image, commuity_user_id, user_id
+    # utf_forms = bottle.request.forms.decode("utf-8")
+    vdbm.insert(table='netcard', **bottle.request.forms.dict)
+
+
 @app.put('/admin/user/partycard/<partycard_id>')
 def admin_user_partycard_update(partycard_id, db):
      vdbm = dbm.DbM(db)
@@ -264,6 +291,14 @@ def admin_user_partycard_update(partycard_id, db):
      utf_forms = bottle.request.forms.decode("utf-8")
      vdbm.update(table='partycard', condition=' where partycard_id=' + partycard_id,
                  form_dict=utf_forms.dict)
+
+@app.post('/admin/user/partycard')
+def admin_user_partycard_add(db):
+     vdbm = dbm.DbM(db)
+     # 数据库字段名参考：partycard_id, relation, party_branch, position, type, status, join_date, confirm_date,
+     # inspection_person, application_id, user_id
+     # utf_forms = bottle.request.forms.decode("utf-8")
+     vdbm.insert(table='partycard',**bottle.request.forms.dict)
 
 
 @app.put('/admin/user/citizen/<citizen_id>')
@@ -276,6 +311,15 @@ def admin_user_citizencard_update(citizen_id, db):
     utf_forms = bottle.request.forms.decode("utf-8")
     vdbm.update(table='citizen_resident', condition=' where citizen_id=' + citizen_id,
                 form_dict=utf_forms.dict)
+
+@app.post('/admin/user/citizen')
+def admin_user_citizencard_add(db):
+    vdbm = dbm.DbM(db)
+    # 数据库字段名参考：citizen_id, name, identification_type, identification_value, marriage_status,
+    # employment_status, residence_category, resident_status, education_status, politics_status,
+    # migration_status, income_status, nation, gender, relationship, user_id, apartment_id,
+    # age, status, phone
+    vdbm.insert(table='citizen_resident', **bottle.request.forms.dict)
 
 def check():
     s = bottle.request.environ.get('beaker.session')
