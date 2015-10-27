@@ -22,7 +22,7 @@ class DbM:
             sql += key + ', '
         sql = sql[:-2] + ') values ('
         for val in kwargs.values():
-            sql += repr(val[0]) + ', '
+            sql += repr(val) + ', '
         sql = sql[:-2] + ' )'
         print(sql)
         status = self.db.execute(sql)
