@@ -249,15 +249,9 @@ def admin_user_role_update(user_role_id, db):
 
 @app.post('/admin/user/role')
 def admin_user_role_add(db):
-    role_id = bottle.request.forms.role_id
-    role_description = bottle.request.forms.role_description
-    user_role_description = bottle.request.forms.user_role_description
-    description_detail = bottle.request.forms.description_detail
-    role_type_id = bottle.request.forms.role_type_id
-
     vdbm = dbm.DbM(db)
-    vdbm.insert(table='role', role_type_id=role_type_id, description=role_description)
-    vdbm.insert(table='user_role', role_id=role_id, description=user_role_description, description_detail=description_detail)
+    utf_forms = bottle.request.forms.decode("utf-8")
+    vdbm.insert(table='user_role', **utf_forms)
 
 
 @app.put('/admin/user/livingcard/<livingcard_id>')
