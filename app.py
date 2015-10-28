@@ -1,8 +1,12 @@
+import traceback
+import logging
 import bottle
 import bottle_mysql
 import models
 import dbm
 from beaker.middleware import SessionMiddleware
+
+logging.basicConfig(filename='smartycity-DBM.log', level=logging.DEBUG)
 
 app = bottle.Bottle()
 app.config.load_config('app.conf')
@@ -13,6 +17,8 @@ plugin = bottle_mysql.Plugin(dbuser=app.config['mysql.user'], dbpass=app.config[
                              dictrows=['mysql.dictrows'] == 'True')
 app.install(plugin)
 
+logging.info('bottle_mysql installed.')
+
 session_opts = {
     'session.type': 'file',
     'session.cookie_expires': 300,  # 300s
@@ -22,16 +28,23 @@ session_opts = {
 app_middlware = SessionMiddleware(app, session_opts)
 
 
+def excep_handler(fn):
+    def wrapper(*args, **kargs):
+        try:
+            return fn(*args, **kargs)
+        except Exception as e:
+            logging.debug(traceback.format_exc())
+            return error500()
+    return wrapper
+app.install(excep_handler)
+
 # Description : document template.
 #
 # Input : None
 #
 # Output : test page
-@app.route('/test')
-def test(db):
-    vdbm = dbm.DbM(db)
-    vdbm.update(table='user', condition='where 1=1', name=1, value="2")
-
+@app.route('/test/<userid>',mysql={'dbname': 'community_dbm'})
+def test(userid,db):
     return bottle.jinja2_template('template/base.html')
 
 
@@ -356,4 +369,7 @@ def add_user(db):
     print(sql)
     status = db.execute(sql)
 
+logging.info('bottle starts to run')
+
 bottle.run(host='localhost', port=1025, debug=True, reloader=True, app=app_middlware)
+
