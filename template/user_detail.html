@@ -19,35 +19,40 @@
         	$("#formPartyInfo").submit(function(e){
 	            postUserPartyInfo()
                 e.preventDefault(); //STOP default action
-	            return false //为了不刷新页面,返回false
+                e.unbind(); //unbind. to stop multiple form submit.
+	            return true //为了不刷新页面则应返回false
 	        })
         })
         $("#btn_add_living_info").on("click", function(){
         	$("#formLivingInfo").submit(function(e){
 	            postUserLivingInfo()
                 e.preventDefault(); //STOP default action
-	            return false //为了不刷新页面,返回false
+                e.unbind(); //unbind. to stop multiple form submit.
+	            return true //为了不刷新页面则应返回false
 	        })
         })
         $("#btn_add_net_info").on("click", function(){
         	$("#formNetInfo").submit(function(e){
 	            postUserNetInfo()
                 e.preventDefault(); //STOP default action
-	            return false //为了不刷新页面,返回false
+                e.unbind(); //unbind. to stop multiple form submit.
+	            return true //为了不刷新页面则应返回false
 	        })
         })
         $("#btn_add_resident_info").on("click", function(){
         	$("#formResidentInfo").submit(function(e){
 	            postUserResidentInfo()
                 e.preventDefault(); //STOP default action
-	            return false //为了不刷新页面,返回false
+                e.unbind(); //unbind. to stop multiple form submit.
+	            return true //为了不刷新页面则应返回false
 	        })
         })
         $("#btn_add_user_role").on("click", function(){
         	$("#formRoleInfo").submit(function(e){
 	            postUserRoleInfo()
                 e.preventDefault(); //STOP default action
-	            return false //为了不刷新页面,返回false
+                e.unbind(); //unbind. to stop multiple form submit.
+	            return true //为了不刷新页面则应返回false
 	        })
         })
         function postUserPartyInfo(){
@@ -83,6 +88,7 @@
                 },
                 success: function () {
                     alert("Add user Reside card success.")
+                    window.location.reload()
                 }
             })
         }
@@ -97,6 +103,7 @@
                 },
                 success: function () {
                     alert("Add user net card success.")
+                    window.location.reload()
                 }
             })
         }
@@ -123,6 +130,7 @@
                 },
                 success: function () {
                     alert("Add user resident information success.")
+                    window.location.reload()
                 }
             })
         }
@@ -139,6 +147,7 @@
                     "description_detail":$("#input_addr_detail").val()},
                 success: function () {
                     alert("Add user role information success.")
+                    window.location.reload()
                 }
             })
         }
@@ -148,27 +157,31 @@
         	$("#formPartyInfo").submit(function(e){
 	            putUserPartyInfo()
                 e.preventDefault(); //STOP default action
-	            return false //为了不刷新页面,返回false
+                e.unbind(); //unbind. to stop multiple form submit.
+	            return true //为了不刷新页面则应返回false
 	        })
         })
         $("#btn_update_living_info").on("click", function(){
         	$("#formLivingInfo").submit(function(e){
 	            putUserLivingInfo()
                 e.preventDefault(); //STOP default action
-	            return false //为了不刷新页面,返回false
+                e.unbind(); //unbind. to stop multiple form submit.
+	            return true //为了不刷新页面则应返回false
 	        })
         })
         $("#btn_update_net_info").on("click", function(){
         	$("#formNetInfo").submit(function(e){
 	            putUserNetInfo()
                 e.preventDefault(); //STOP default action
-	            return false //为了不刷新页面,返回false
+                e.unbind(); //unbind. to stop multiple form submit.
+	            return true //为了不刷新页面则应返回false
 	        })
         })
         $("#btn_update_resident_info").on("click", function(){
         	$("#formResidentInfo").submit(function(e){
 	            putUserResidentInfo()
                 e.preventDefault(); //STOP default action
+                e.unbind(); //unbind. to stop multiple form submit.
 	            return false //为了不刷新页面,返回false
 	        })
         })
@@ -176,15 +189,16 @@
         	$("#formRoleInfo").submit(function(e){
 	            putUserRoleInfo()
                 e.preventDefault(); //STOP default action
-	            return false //为了不刷新页面,返回false
+                e.unbind(); //unbind. to stop multiple form submit.
+	            return true //为了不刷新页面则应返回false
 	        })
         })
         $("#btn_update_user_basic").on("click", function(){
         	$("#formUserBasic").submit(function(e){
 	            putUserBasicInfo()
                 e.preventDefault(); //STOP default action
-                //e.unbind(); //unbind. to stop multiple form submit.
-	            return false //为了不刷新页面,返回false
+                e.unbind(); //unbind. to stop multiple form submit.
+	            return true //为了不刷新页面则应返回false
 	        })
         })
         function putUserPartyInfo(){
