@@ -369,6 +369,17 @@ def add_user(db):
     print(sql)
     status = db.execute(sql)
 
+
+@app.error(404)
+def error404(error):
+    return bottle.jinja2_template('template/404.html')
+
+
+@app.error(500)
+def error500(error):
+    return bottle.jinja2_template('template/500.html')
+
+
 logging.info('bottle starts to run')
 
 bottle.run(host='localhost', port=1025, debug=True, reloader=True, app=app_middlware)
