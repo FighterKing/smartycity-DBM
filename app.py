@@ -38,6 +38,25 @@ def excep_handler(fn):
     return wrapper
 app.install(excep_handler)
 
+
+@app.hook('before_request')
+def setup_request():
+    try:
+        bottle.request.session = bottle.request.environ['beaker.session']
+    except:
+        logging.info(401, "Failed beaker_session in slash")
+        bottle.abort(401, "Failed beaker_session in slash")
+
+    try:
+        exclude_path = ['/', '/admin/login']
+        if bottle.request.urlparts.path in exclude_path:
+            return
+        username = bottle.request.session['username']
+    except Exception as e:
+        logging.info('Authenticated failed!')
+        bottle.redirect('/')
+
+
 # Description : document template.
 #
 # Input : None
@@ -87,8 +106,7 @@ def admin_login_process(db):
     row = db.fetchone()
     if row:
         if str(row[0]) == password and str(row[1]) == '4':
-            s = bottle.request.environ.get('beaker.session')
-            s['username'] = username
+            bottle.request.session['username'] = username
             return admin_index()
         else:
             return "<p>Your username or password is wrong, or you are not an administrator.</p>"
@@ -109,10 +127,7 @@ def admin_index(**dict):
 
 @app.get('/admin/signup')
 def admin_signup():
-    if check():
-        return bottle.jinja2_template('template/signup.html')
-    else:
-        bottle.redirect('/')
+    return bottle.jinja2_template('template/signup.html')
 
 
 @app.post('/admin/signup')
@@ -341,15 +356,7 @@ def admin_user_citizencard_add(db):
     utf_forms = bottle.request.forms.decode("utf-8")
     vdbm.insert(table='citizen_resident', **utf_forms)
 
-def check():
-    s = bottle.request.environ.get('beaker.session')
-    return s['username'] if s.get('username') else None
-
-
 def add_user(db):
-    if not check():
-        bottle.redirect('/')
-
     username = bottle.request.forms.username
     password = bottle.request.forms.password
     email = bottle.request.forms.email
