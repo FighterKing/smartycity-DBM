@@ -4,6 +4,7 @@ import bottle
 import bottle_mysql
 import models
 import dbm
+import time
 from beaker.middleware import SessionMiddleware
 
 logging.basicConfig(filename='smartycity-DBM.log', level=logging.DEBUG)
@@ -17,7 +18,12 @@ plugin = bottle_mysql.Plugin(dbuser=app.config['mysql.user'], dbpass=app.config[
                              dictrows=['mysql.dictrows'] == 'True')
 app.install(plugin)
 
-logging.info('bottle_mysql installed.')
+
+def getCurrentDayTime():
+    return time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
+
+
+logging.info(getCurrentDayTime() + ' bottle_mysql installed.')
 
 session_opts = {
     'session.type': 'file',
@@ -33,7 +39,7 @@ def excep_handler(fn):
         try:
             return fn(*args, **kargs)
         except Exception as e:
-            logging.debug(traceback.format_exc())
+            logging.debug(getCurrentDayTime() + ' ' + traceback.format_exc())
             return error500()
     return wrapper
 app.install(excep_handler)
@@ -44,7 +50,7 @@ def setup_request():
     try:
         bottle.request.session = bottle.request.environ['beaker.session']
     except:
-        logging.info(401, "Failed beaker_session in slash")
+        logging.info(401, getCurrentDayTime() + " Failed beaker_session in slash")
         bottle.abort(401, "Failed beaker_session in slash")
 
     try:
@@ -53,7 +59,7 @@ def setup_request():
             return
         username = bottle.request.session['username']
     except Exception as e:
-        logging.info('Authenticated failed!')
+        logging.info(getCurrentDayTime() + ' Authenticated failed!')
         bottle.redirect('/')
 
 
